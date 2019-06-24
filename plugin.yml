@@ -1,0 +1,18 @@
+main: me.darthteddy1.gta.Core
+name: GTAMC
+version: 1.0
+description: GTA Custom Coded Plugin! Open source and avaiable to the public
+author: darthteddy1
+commands:
+    vanish:
+    guns:
+    drank:
+    feed:
+    mute:
+    fly:
+    spawn:
+    summoncop:
+    summoncar:
+    setrank:
+    bal:
+    pay:
