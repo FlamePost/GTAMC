@@ -221,10 +221,10 @@ public class GunListener implements Listener {
                     if (getAmmo(e.getItem()) != -1) {
                         Integer newAmmo = getAmmo(e.getItem()) - 1;
                         if (newAmmo < 0) {
-                            reload(e.getPlayer(), "§eMinigun §l» 500 «", 10);
+                            reload(e.getPlayer(), "§eMinigun §l» 500 «", 30);
                         } else {
                             if (newAmmo == 0) {
-                                reload(e.getPlayer(), "§eMinigun §l» 500 «", 10);
+                                reload(e.getPlayer(), "§eMinigun §l» 500 «", 30);
                             }
                             Egg s = e.getPlayer().launchProjectile(Egg.class);
                             s.setVelocity(s.getVelocity().multiply(5));
@@ -281,7 +281,7 @@ public class GunListener implements Listener {
 
                         }
                     } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
-                        setName(e.getItem(), e.getPlayer(), "§eFlamethrower §l» 200 «");
+                        setName(e.getItem(), e.getPlayer(), "§eMinigun §l» 500 «");
                     }
                 }
                 e.setCancelled(true);
@@ -313,6 +313,10 @@ public class GunListener implements Listener {
         }
         if (e.getItemDrop().getItemStack().getType() == Material.CARROT_STICK) {
             reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§5Enderstaff §l» 10 «", 10);
+            e.setCancelled(true);
+        }
+        if (e.getItemDrop().getItemStack().getType() == Material.LEASH) {
+            reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§eMinigun §l» 500 «", 30);
             e.setCancelled(true);
         }
     }
@@ -373,7 +377,7 @@ public class GunListener implements Listener {
             if (s.getCustomName() != null) {
                 if (s.getShooter() != e.getEntity()) {
                     if (s.getCustomName().equals("MINIGUN")) {
-                        e.setDamage(3);
+                        e.setDamage(1);
                     }
                 }
             }
