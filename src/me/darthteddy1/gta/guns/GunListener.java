@@ -1,6 +1,7 @@
 package me.darthteddy1.gta.guns;
 
 import me.darthteddy1.gta.Core;
+import me.darthteddy1.gta.commands.SpawnCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -10,6 +11,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -17,11 +20,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
 
 public class GunListener implements Listener {
 
@@ -29,6 +32,17 @@ public class GunListener implements Listener {
 
     HashMap<Player, ItemStack> reloading = new HashMap<>();
     HashMap<Player, ItemStack> shot = new HashMap<>();
+    ArrayList<Player> opening = new ArrayList<>();
+
+    @EventHandler
+    public void openInv(InventoryOpenEvent e) {
+        opening.add((Player)e.getPlayer());
+    }
+
+    @EventHandler
+    public void closeInv(InventoryCloseEvent e) {
+        opening.add((Player)e.getPlayer());
+    }
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
@@ -308,6 +322,190 @@ public class GunListener implements Listener {
                     }
                     e.setCancelled(true);
                 }
+
+                //Begin Tier Weapons
+
+                if (e.getItem().getType() == Material.WOOD_SPADE) {
+                    if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
+                        if (getAmmo(e.getItem()) != -1) {
+                            Integer newAmmo = getAmmo(e.getItem()) - 1;
+                            if (!shot.containsKey(e.getPlayer())) {
+                                if (newAmmo < 0) {
+                                    reload(e.getPlayer(), e.getItem(), "§eTier1 Shotgun §l» 4 «", 10, Material.GOLD_INGOT, 4);
+                                } else {
+                                    cooldown(e.getPlayer(), e.getItem(), 20);
+                                    setName(e.getItem(), e.getPlayer(), "§eTier1 Shotgun §l» " + newAmmo + " «");
+                                    fireShotgunShots(e.getPlayer(), "TIER1SHOTTY");
+                                    if (newAmmo == 0) {
+                                        reload(e.getPlayer(), e.getItem(), "§eTier1 Shotgun §l» 4 «", 10, Material.GOLD_INGOT, 4);
+                                    }
+                                }
+                            } else {
+                                if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+                                    if (newAmmo < 0) {
+                                        reload(e.getPlayer(), e.getItem(), "§eTier1 Shotgun §l» 4 «", 10, Material.GOLD_INGOT, 4);
+                                    } else {
+                                        cooldown(e.getPlayer(), e.getItem(), 20);
+                                        setName(e.getItem(), e.getPlayer(), "§eTier1 Shotgun §l» " + newAmmo + " «");
+                                        fireShotgunShots(e.getPlayer(), "TIER1SHOTTY");
+                                        if (newAmmo == 0) {
+                                            reload(e.getPlayer(), e.getItem(), "§eTier1 Shotgun §l» 4 «", 10, Material.GOLD_INGOT, 4);
+                                        }
+                                    }
+                                }
+                            }
+
+                        } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
+                            setName(e.getItem(), e.getPlayer(), "§eTier1 Shotgun §l» 4 «");
+                        }
+                    }
+                    e.setCancelled(true);
+                }
+
+                if (e.getItem().getType() == Material.STONE_SPADE) {
+                    if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
+                        if (getAmmo(e.getItem()) != -1) {
+                            Integer newAmmo = getAmmo(e.getItem()) - 1;
+                            if (!shot.containsKey(e.getPlayer())) {
+                                if (newAmmo < 0) {
+                                    reload(e.getPlayer(), e.getItem(), "§6Tier2 Shotgun §l» 2 «", 8, Material.GOLD_INGOT, 2);
+                                } else {
+                                    cooldown(e.getPlayer(), e.getItem(), 20);
+                                    setName(e.getItem(), e.getPlayer(), "§6Tier2 Shotgun §l» " + newAmmo + " «");
+                                    fireShotgunShots(e.getPlayer(), "TIER2SHOTTY");
+                                    if (newAmmo == 0) {
+                                        reload(e.getPlayer(), e.getItem(), "§6Tier2 Shotgun §l» 2 «", 8, Material.GOLD_INGOT, 2);
+                                    }
+                                }
+                            } else {
+                                if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+                                    if (newAmmo < 0) {
+                                        reload(e.getPlayer(), e.getItem(), "§eTier1 Shotgun §l» 4 «", 8, Material.GOLD_INGOT, 2);
+                                    } else {
+                                        cooldown(e.getPlayer(), e.getItem(), 25);
+                                        setName(e.getItem(), e.getPlayer(), "§6Tier2 Shotgun §l» " + newAmmo + " «");
+                                        fireShotgunShots(e.getPlayer(), "TIER2SHOTTY");
+                                        if (newAmmo == 0) {
+                                            reload(e.getPlayer(), e.getItem(), "§6Tier2 Shotgun §l» 2 «", 8, Material.GOLD_INGOT, 2);
+                                        }
+                                    }
+                                }
+                            }
+
+                        } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
+                            setName(e.getItem(), e.getPlayer(), "§6Tier2 Shotgun §l» 2 «");
+                        }
+                    }
+                    e.setCancelled(true);
+                }
+                if (e.getItem().getType() == Material.GOLD_SPADE) {
+                    if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
+                        if (getAmmo(e.getItem()) != -1) {
+                            Integer newAmmo = getAmmo(e.getItem()) - 1;
+                            if (!shot.containsKey(e.getPlayer())) {
+                                if (newAmmo < 0) {
+                                    reload(e.getPlayer(), e.getItem(), "§aTier3 Shotgun §l» 5 «", 12, Material.GOLD_INGOT, 5);
+                                } else {
+                                    cooldown(e.getPlayer(), e.getItem(), 20);
+                                    setName(e.getItem(), e.getPlayer(), "§aTier3 Shotgun §l» " + newAmmo + " «");
+                                    fireShotgunShots(e.getPlayer(), "TIER3SHOTTY");
+                                    if (newAmmo == 0) {
+                                        reload(e.getPlayer(), e.getItem(), "§aTier3 Shotgun §l» 5 «", 12, Material.GOLD_INGOT, 5);
+                                    }
+                                }
+                            } else {
+                                if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+                                    if (newAmmo < 0) {
+                                        reload(e.getPlayer(), e.getItem(), "§aTier3 Shotgun §l» 5 «", 12, Material.GOLD_INGOT, 5);
+                                    } else {
+                                        cooldown(e.getPlayer(), e.getItem(), 25);
+                                        setName(e.getItem(), e.getPlayer(), "§aTier3 Shotgun §l» " + newAmmo + " «");
+                                        fireShotgunShots(e.getPlayer(), "TIER3SHOTTY");
+                                        if (newAmmo == 0) {
+                                            reload(e.getPlayer(), e.getItem(), "§aTier3 Shotgun §l» 5 «", 12, Material.GOLD_INGOT, 5);
+                                        }
+                                    }
+                                }
+                            }
+
+                        } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
+                            setName(e.getItem(), e.getPlayer(), "§aTier3 Shotgun §l» 5 «");
+                        }
+                    }
+                    e.setCancelled(true);
+                }
+                if (e.getItem().getType() == Material.IRON_SPADE) {
+                    if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
+                        if (getAmmo(e.getItem()) != -1) {
+                            Integer newAmmo = getAmmo(e.getItem()) - 1;
+                            if (!shot.containsKey(e.getPlayer())) {
+                                if (newAmmo < 0) {
+                                    reload(e.getPlayer(), e.getItem(), "§dTier4 Shotgun §l» 5 «", 12, Material.GOLD_INGOT, 5);
+                                } else {
+                                    cooldown(e.getPlayer(), e.getItem(), 20);
+                                    setName(e.getItem(), e.getPlayer(), "§dTier4 Shotgun §l» " + newAmmo + " «");
+                                    fireShotgunShots(e.getPlayer(), "TIER4SHOTTY");
+                                    if (newAmmo == 0) {
+                                        reload(e.getPlayer(), e.getItem(), "§dTier4 Shotgun §l» 5 «", 12, Material.GOLD_INGOT, 5);
+                                    }
+                                }
+                            } else {
+                                if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+                                    if (newAmmo < 0) {
+                                        reload(e.getPlayer(), e.getItem(), "§dTier4 Shotgun §l» 5 «", 12, Material.GOLD_INGOT, 5);
+                                    } else {
+                                        cooldown(e.getPlayer(), e.getItem(), 25);
+                                        setName(e.getItem(), e.getPlayer(), "§dTier4 Shotgun §l» " + newAmmo + " «");
+                                        fireShotgunShots(e.getPlayer(), "TIER4SHOTTY");
+                                        if (newAmmo == 0) {
+                                            reload(e.getPlayer(), e.getItem(), "§dTier4 Shotgun §l» 5 «", 12, Material.GOLD_INGOT, 5);
+                                        }
+                                    }
+                                }
+                            }
+
+                        } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
+                            setName(e.getItem(), e.getPlayer(), "§dTier4 Shotgun §l» 5 «");
+                        }
+                    }
+                    e.setCancelled(true);
+                }
+                if (e.getItem().getType() == Material.DIAMOND_SPADE) {
+                    if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
+                        if (getAmmo(e.getItem()) != -1) {
+                            Integer newAmmo = getAmmo(e.getItem()) - 1;
+                            if (!shot.containsKey(e.getPlayer())) {
+                                if (newAmmo < 0) {
+                                    reload(e.getPlayer(), e.getItem(), "§bTier5 Shotgun §l» 6 «", 10, Material.GOLD_INGOT, 6);
+                                } else {
+                                    cooldown(e.getPlayer(), e.getItem(), 20);
+                                    setName(e.getItem(), e.getPlayer(), "§bTier5 Shotgun §l» " + newAmmo + " «");
+                                    fireShotgunShots(e.getPlayer(), "TIER5SHOTTY");
+                                    if (newAmmo == 0) {
+                                        reload(e.getPlayer(), e.getItem(), "§bTier5 Shotgun §l» 6 «", 10, Material.GOLD_INGOT, 6);
+                                    }
+                                }
+                            } else {
+                                if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+                                    if (newAmmo < 0) {
+                                        reload(e.getPlayer(), e.getItem(), "§bTier5 Shotgun §l» 6 «", 10, Material.GOLD_INGOT, 6);
+                                    } else {
+                                        cooldown(e.getPlayer(), e.getItem(), 25);
+                                        setName(e.getItem(), e.getPlayer(), "§bTier5 Shotgun §l» " + newAmmo + " «");
+                                        fireShotgunShots(e.getPlayer(), "TIER5SHOTTY");
+                                        if (newAmmo == 0) {
+                                            reload(e.getPlayer(), e.getItem(), "§bTier5 Shotgun §l» 6 «", 10, Material.GOLD_INGOT, 6);
+                                        }
+                                    }
+                                }
+                            }
+
+                        } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
+                            setName(e.getItem(), e.getPlayer(), "§dTier4 Shotgun §l» 5 «");
+                        }
+                    }
+                    e.setCancelled(true);
+                }
             }
         } else {
             reloading.remove(e.getPlayer());
@@ -326,33 +524,55 @@ public class GunListener implements Listener {
 
     @EventHandler
     public void onDrop(PlayerDropItemEvent e) {
-        if (e.getItemDrop().getItemStack().getType() == Material.DOUBLE_PLANT) {
-            reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§eJetpack §l» 50 «", 15);
-            e.setCancelled(true);
-        }
-        if (e.getItemDrop().getItemStack().getType() == Material.FEATHER) {
-            reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§eTaser §l» 2 «", 10);
-            e.setCancelled(true);
-        }
-        if (e.getItemDrop().getItemStack().getType() == Material.FLINT_AND_STEEL) {
-            reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§eFlamethrower §l» 200 «", 10);
-            e.setCancelled(true);
-        }
-        if (e.getItemDrop().getItemStack().getType() == Material.SUGAR_CANE) {
-            reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§eBlow Gun §l» 1 «", 10);
-            e.setCancelled(true);
-        }
-        if (e.getItemDrop().getItemStack().getType() == Material.CARROT_STICK) {
-            reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§5Enderstaff §l» 10 «", 10);
-            e.setCancelled(true);
-        }
-        if (e.getItemDrop().getItemStack().getType() == Material.LEASH) {
-            reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§eMinigun §l» 500 «", 30);
-            e.setCancelled(true);
-        }
-        if (e.getItemDrop().getItemStack().getType() == Material.IRON_BARDING) {
-            reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§eBazooka §l» 1 «", 20);
-            e.setCancelled(true);
+        if(!opening.contains(e.getPlayer())) {
+            if (e.getItemDrop().getItemStack().getType() == Material.DOUBLE_PLANT) {
+                reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§eJetpack §l» 50 «", 15);
+                e.setCancelled(true);
+            }
+            if (e.getItemDrop().getItemStack().getType() == Material.FEATHER) {
+                reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§eTaser §l» 2 «", 10);
+                e.setCancelled(true);
+            }
+            if (e.getItemDrop().getItemStack().getType() == Material.FLINT_AND_STEEL) {
+                reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§eFlamethrower §l» 200 «", 10);
+                e.setCancelled(true);
+            }
+            if (e.getItemDrop().getItemStack().getType() == Material.SUGAR_CANE) {
+                reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§eBlow Gun §l» 1 «", 10);
+                e.setCancelled(true);
+            }
+            if (e.getItemDrop().getItemStack().getType() == Material.CARROT_STICK) {
+                reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§5Enderstaff §l» 10 «", 10);
+                e.setCancelled(true);
+            }
+            if (e.getItemDrop().getItemStack().getType() == Material.LEASH) {
+                reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§eMinigun §l» 500 «", 30);
+                e.setCancelled(true);
+            }
+            if (e.getItemDrop().getItemStack().getType() == Material.IRON_BARDING) {
+                reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§eBazooka §l» 1 «", 20);
+                e.setCancelled(true);
+            }
+            if (e.getItemDrop().getItemStack().getType() == Material.WOOD_SPADE) {
+                reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§eTier1 Shotgun §l» 4 «", 10, Material.GOLD_INGOT, (4 - (getAmmo(e.getItemDrop().getItemStack()))));
+                e.setCancelled(true);
+            }
+            if (e.getItemDrop().getItemStack().getType() == Material.STONE_SPADE) {
+                reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§6Tier2 Shotgun §l» 2 «", 8, Material.GOLD_INGOT, (2 - (getAmmo(e.getItemDrop().getItemStack()))));
+                e.setCancelled(true);
+            }
+            if (e.getItemDrop().getItemStack().getType() == Material.GOLD_SPADE) {
+                reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§aTier3 Shotgun §l» 5 «", 12, Material.GOLD_INGOT, (5 - (getAmmo(e.getItemDrop().getItemStack()))));
+                e.setCancelled(true);
+            }
+            if (e.getItemDrop().getItemStack().getType() == Material.IRON_SPADE) {
+                reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§dTier4 Shotgun §l» 5 «", 12, Material.GOLD_INGOT, (5 - (getAmmo(e.getItemDrop().getItemStack()))));
+                e.setCancelled(true);
+            }
+            if (e.getItemDrop().getItemStack().getType() == Material.DIAMOND_SPADE) {
+                reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§bTier5 Shotgun §l» 6 «", 10, Material.GOLD_INGOT, (6 - (getAmmo(e.getItemDrop().getItemStack()))));
+                e.setCancelled(true);
+            }
         }
     }
 
@@ -367,13 +587,50 @@ public class GunListener implements Listener {
             }
         }
     }
-    
+
     @EventHandler
     public void onCreatureSpawn(CreatureSpawnEvent e)
     {
         if (e.getSpawnReason() == CreatureSpawnEvent.SpawnReason.EGG)
         {
             e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onDeath(EntityDeathEvent e) {
+        if (e.getEntity() instanceof Player) {
+            Player p = (Player) e.getEntity();
+            ArrayList<ItemStack> toGive = new ArrayList<>();
+            for (ItemStack i : p.getInventory().getContents()) {
+                if (i != null) {
+                    if(i.getType() == Material.DIAMOND_SPADE ||
+                            i.getType() == Material.LEASH ||
+                            i.getType() == Material.DOUBLE_PLANT ||
+                            i.getType() == Material.FLINT_AND_STEEL ||
+                            i.getType() == Material.CARROT_STICK ||
+                            i.getType() == Material.IRON_BARDING ||
+                            i.getType() == Material.FEATHER ||
+                            i.getType() == Material.SUGAR_CANE) {
+                        toGive.add(i);
+                        e.getDrops().remove(i);
+                    }
+                }
+            }
+            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Core.getInstance(), new Runnable() {
+                public void run() {
+                    p.spigot().respawn();
+                    Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Core.getInstance(), new Runnable() {
+                        public void run() {
+                            for (ItemStack i : toGive) {
+                                p.getInventory().addItem(i);
+                            }
+                            p.updateInventory();
+                        }
+
+                    });
+                }
+            });
         }
     }
 
@@ -423,6 +680,21 @@ public class GunListener implements Listener {
                     if (s.getCustomName().equals("MINIGUN")) {
                         e.setDamage(1);
                     }
+                    if(s.getCustomName().equals("TIER1SHOTTY")) {
+                        e.setDamage(2);
+                    }
+                    if(s.getCustomName().equals("TIER2SHOTTY")) {
+                        e.setDamage(5);
+                    }
+                    if(s.getCustomName().equals("TIER3SHOTTY")) {
+                        e.setDamage(4);
+                    }
+                    if(s.getCustomName().equals("TIER4SHOTTY")) {
+                        e.setDamage(6);
+                    }
+                    if(s.getCustomName().equals("TIER5SHOTTY")) {
+                        e.setDamage(8);
+                    }
                 }
             }
         }
@@ -438,7 +710,7 @@ public class GunListener implements Listener {
             }
         }
     }
-    
+
     @EventHandler
     public void onEntityExplode(EntityExplodeEvent e) {
         ArrayList<Block> blocks = new ArrayList<>(e.blockList());
@@ -452,7 +724,7 @@ public class GunListener implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
-        if(e.getClickedInventory().getTitle().equals("§c§lGuns")) {
+        if(e.getClickedInventory().getTitle() != null && e.getClickedInventory().getTitle().equals("§c§lGuns")) {
             Player p = (Player) e.getWhoClicked();
             p.getInventory().addItem(e.getCurrentItem());
             e.setCancelled(true);
@@ -522,15 +794,69 @@ public class GunListener implements Listener {
         }, 20);
     }
 
-    private void reload(ItemStack i, Player p, String name, Integer time, Material ammo, Integer ammoAmount) {
+
+    private void reload(Player p, ItemStack i, String name, Integer time, Material ammo, int amt) {
+        if(!reloading.containsKey(p)) {
+            p.sendMessage("§a§lReloading (§7" + time + " seconds§a§l)");
+            reloading.put(p, i);
+            boolean foundAmmo = false;
+                for(ItemStack ii : p.getInventory().getContents()) {
+                    if (ii != null) {
+                        if (ii.getType().equals(ammo)) {
+                            foundAmmo = true;
+                            }
+                    }
+                }
+                if(!foundAmmo) {
+                    p.sendMessage("§c§lCannot reload (§7No Ammo§c§l)");
+                    reloading.remove(p);
+                } else {
+                    scheduleReload(p, name, time, ammo, amt);
+                }
+        }
+    }
+
+    private void scheduleReload(Player p, String name, Integer time, Material ammo, int amt) {
+        final int t = time-1;
         Bukkit.getScheduler().scheduleSyncDelayedTask(Core.getInstance(), new Runnable() {
             @Override
             public void run() {
-                if(p.getInventory().contains(i)) {
-                    setName(i, p, name);
+                if (reloading.containsKey(p)) {
+                    if (p.getItemInHand().isSimilar(reloading.get(p))) {
+                        if (t == 0) {
+                            boolean foundAmmo = false;
+                            for(ItemStack ii : p.getInventory().getContents()) {
+                                if (ii != null) {
+                                    if (ii.getType().equals(ammo)) {
+                                        foundAmmo = true;
+                                        if (ii.getAmount() == amt) {
+                                            p.getInventory().removeItem(ii);
+                                            p.updateInventory();
+                                        } else if (ii.getAmount() > amt) {
+                                            ii.setAmount(ii.getAmount() - amt);
+                                            p.updateInventory();
+                                        } else {
+                                            foundAmmo = false;
+                                        }
+                                    }
+                                }
+                            }
+                            if(!foundAmmo) {
+                                p.sendMessage("§c§lCannot reload (§7No Ammo§c§l)");
+                            } else {
+                                setName(p.getItemInHand(), p, name);
+                            }
+                            reloading.remove(p);
+                        } else {
+                            scheduleReload(p, name, t, ammo, amt);
+                        }
+                    } else {
+                        reloading.remove(p);
+                        p.sendMessage("§c§lCancelled Reload (§7Switched item§c§l)");
+                    }
                 }
             }
-        }, 20*time);
+        }, 20);
     }
 
     private void cooldown(Player p, ItemStack i, int time) {
@@ -541,5 +867,28 @@ public class GunListener implements Listener {
                 shot.remove(p, i);
             }
         }, time);
+    }
+
+    private void fireShotgunShots(Player p, String n) {
+        Egg s = p.launchProjectile(Egg.class);
+        Egg s1 = p.launchProjectile(Egg.class);
+        Egg s2 = p.launchProjectile(Egg.class);
+        Egg s3 = p.launchProjectile(Egg.class);
+        Egg s4 = p.launchProjectile(Egg.class);
+        s.setVelocity(s.getVelocity());
+        s1.setVelocity(s.getVelocity().add(new Vector(0, 0.3, 0)));
+        s2.setVelocity(s.getVelocity().add(new Vector(0.2, 0.3, 0)));
+        s3.setVelocity(s.getVelocity().add(new Vector(0, 0.3, 0.2)));
+        s4.setVelocity(s.getVelocity().add(new Vector(0, -0.1, 0)));
+        s.setCustomName(n);
+        s.setCustomNameVisible(false);
+        s1.setCustomName(n);
+        s1.setCustomNameVisible(false);
+        s2.setCustomName(n);
+        s2.setCustomNameVisible(false);
+        s3.setCustomName(n);
+        s3.setCustomNameVisible(false);
+        s4.setCustomName(n);
+        s4.setCustomNameVisible(false);
     }
 }
