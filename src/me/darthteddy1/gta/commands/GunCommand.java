@@ -36,6 +36,13 @@ public class GunCommand implements CommandExecutor {
         inv.addItem(ItemUtils.createItemStack("§eMinigun §l» 500 «", Arrays.asList("§eTier: §c§lCHEATCODE", " ", "§7So.. much.. firepower..."), Material.LEASH));
         inv.addItem(ItemUtils.createItemStack("§eBazooka §l» 1 «", Arrays.asList("§eTier: §c§lCHEATCODE", " ", "§7Explosions? Explosions."), Material.IRON_BARDING));
 
+        inv.setItem(9,ItemUtils.createItemStack("§eTier1 Shotgun §l» 4 «", Arrays.asList(" ", "§7Tier: §e1", "§7Type: §eShotgun", "§7Ammo Type: §cShotgun §a(Gold Ingot)", " ", "§7Standard-grade shotgun"), Material.WOOD_SPADE));
+        inv.setItem(18,ItemUtils.createItemStack("§6Tier2 Shotgun §l» 2 «", Arrays.asList(" ", "§7Tier: §62", "§7Type: §6Shotgun", "§7Ammo Type: §cShotgun §a(Gold Ingot)", " ", "§7The classic double-barrel shotgun"), Material.STONE_SPADE));
+        inv.setItem(27,ItemUtils.createItemStack("§aTier3 Shotgun §l» 5 «", Arrays.asList(" ", "§7Tier: §a3", "§7Type: §aShotgun", "§7Ammo Type: §cShotgun §a(Gold Ingot)", " ", "§7Not your average street shotgun"), Material.GOLD_SPADE));
+        inv.setItem(36,ItemUtils.createItemStack("§dTier4 Shotgun §l» 5 «", Arrays.asList(" ", "§7Tier: §d4", "§7Type: §dShotgun", "§7Ammo Type: §cShotgun §a(Gold Ingot)", " ", "§7Military grade shotgun"), Material.IRON_SPADE));
+        inv.setItem(45,ItemUtils.createItemStack("§bTier5 Shotgun §l» 6 «", Arrays.asList(" ", "§7Tier: §b5", "§7Type: §bShotgun", "§7Ammo Type: §cShotgun §a(Gold Ingot)", " ", "§7The best of the best"), Material.DIAMOND_SPADE));
+
+
         p.openInventory(inv);
     }
 
