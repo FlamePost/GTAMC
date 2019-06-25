@@ -108,34 +108,26 @@ public class GunListener implements Listener {
                                     reload(e.getPlayer(), "§eFlamethrower §l» 200 «", 10);
                                 }
                                 setName(e.getItem(), e.getPlayer(), "§eFlamethrower §l» " + newAmmo + " «");
-                                Snowball s = e.getPlayer().launchProjectile(Snowball.class);
-                                Snowball s1 = e.getPlayer().launchProjectile(Snowball.class);
-                                Snowball s2 = e.getPlayer().launchProjectile(Snowball.class);
-                                Snowball s3 = e.getPlayer().launchProjectile(Snowball.class);
-                                Snowball s4 = e.getPlayer().launchProjectile(Snowball.class);
-                                Snowball s5 = e.getPlayer().launchProjectile(Snowball.class);
-                                Snowball s6 = e.getPlayer().launchProjectile(Snowball.class);
-                                s.setVelocity(s.getVelocity());
-                                s1.setVelocity(s.getVelocity().add(new Vector(0, 0.3, 0)));
-                                s2.setVelocity(s.getVelocity().add(new Vector(0.5, 0.3, 0)));
-                                s3.setVelocity(s.getVelocity().add(new Vector(0, 0.3, 0.5)));
-                                s4.setVelocity(s.getVelocity().add(new Vector(0, -0.1, 0)));
-                                s5.setVelocity(s.getVelocity().add(new Vector(0.5, -0.1, 0)));
-                                s6.setVelocity(s.getVelocity().add(new Vector(0, -0.1, 0.5)));
-                                s.setCustomName("FLAME");
-                                s.setCustomNameVisible(false);
-                                s1.setCustomName("FLAME");
-                                s1.setCustomNameVisible(false);
-                                s2.setCustomName("FLAME");
-                                s2.setCustomNameVisible(false);
-                                s3.setCustomName("FLAME");
-                                s3.setCustomNameVisible(false);
-                                s4.setCustomName("FLAME");
-                                s4.setCustomNameVisible(false);
-                                s5.setCustomName("FLAME");
-                                s5.setCustomNameVisible(false);
-                                s6.setCustomName("FLAME");
-                                s6.setCustomNameVisible(false);
+                                 for(int i = 0; i < 7; i++) {
+                                    Snowball s = e.getPlayer().launchProjectile(Snowball.class);
+                                    if(i == 0) {
+                                        s.setVelocity(s.getVelocity());
+                                    } else if(i == 1) {
+                                        s.setVelocity(s.getVelocity().add(new Vector(0, 0.3, 0)));
+                                    } else if(i == 2) {
+                                        s.setVelocity(s.getVelocity().add(new Vector(0.5, 0.3, 0)));
+                                    } else if(i == 3) {
+                                        s.setVelocity(s.getVelocity().add(new Vector(0, 0.3, 0.5)));
+                                    } else if(i == 4) {
+                                        s.setVelocity(s.getVelocity().add(new Vector(0, -0.1, 0)));
+                                    } else if(i == 5) {
+                                        s.setVelocity(s.getVelocity().add(new Vector(0.5, -0.1, 0)));
+                                    } else if(i == 6) {
+                                        s.setVelocity(s.getVelocity().add(new Vector(0, -0.1, 0.5)));
+                                    }
+                                    s.setCustomName("FLAME");
+                                    s.setCustomNameVisible(false);
+                                }
                             }
                         } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
                             setName(e.getItem(), e.getPlayer(), "§eFlamethrower §l» 200 «");
