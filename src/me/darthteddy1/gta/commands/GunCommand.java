@@ -34,7 +34,7 @@ public class GunCommand implements CommandExecutor {
         inv.addItem(ItemUtils.createItemStack("§5Enderstaff §l» 10 «", Arrays.asList("§eTier: §c§lCHEATCODE", " ", "§7A staff forged from the skin", "§7of the enderdragon"), Material.CARROT_STICK));
         inv.addItem(ItemUtils.createItemStack("§eJetpack §l» 50 «", Arrays.asList("§eTier: §c§lCHEATCODE", " ", "§7Fly through the skies", "§7of the enderdragon"), Material.DOUBLE_PLANT));
         inv.addItem(ItemUtils.createItemStack("§eMinigun §l» 500 «", Arrays.asList("§eTier: §c§lCHEATCODE", " ", "§7So.. much.. firepower..."), Material.LEASH));
-
+        inv.addItem(ItemUtils.createItemStack("§eBazooka §l» 1 «", Arrays.asList("§eTier: §c§lCHEATCODE", " ", "§7Explosions? Explosions."), Material.IRON_BARDING));
 
         p.openInventory(inv);
     }
