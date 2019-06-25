@@ -32,17 +32,6 @@ public class GunListener implements Listener {
 
     HashMap<Player, ItemStack> reloading = new HashMap<>();
     HashMap<Player, ItemStack> shot = new HashMap<>();
-    ArrayList<Player> opening = new ArrayList<>();
-
-    @EventHandler
-    public void openInv(InventoryOpenEvent e) {
-        opening.add((Player)e.getPlayer());
-    }
-
-    @EventHandler
-    public void closeInv(InventoryCloseEvent e) {
-        opening.add((Player)e.getPlayer());
-    }
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
@@ -522,9 +511,8 @@ public class GunListener implements Listener {
         }
     }
 
-    @EventHandler
+     @EventHandler
     public void onDrop(PlayerDropItemEvent e) {
-        if(!opening.contains(e.getPlayer())) {
             if (e.getItemDrop().getItemStack().getType() == Material.DOUBLE_PLANT) {
                 reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§eJetpack §l» 50 «", 15);
                 e.setCancelled(true);
@@ -573,7 +561,10 @@ public class GunListener implements Listener {
                 reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§bTier5 Shotgun §l» 6 «", 10, Material.GOLD_INGOT, (6 - (getAmmo(e.getItemDrop().getItemStack()))));
                 e.setCancelled(true);
             }
-        }
+            if (e.getItemDrop().getItemStack().getType() == Material.WOOD_PICKAXE) {
+                reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§eTier1 Assault Rifle §l» 20 «", 10, Material.IRON_INGOT, (20 - (getAmmo(e.getItemDrop().getItemStack()))));
+                e.setCancelled(true);
+            }
     }
 
     @EventHandler
