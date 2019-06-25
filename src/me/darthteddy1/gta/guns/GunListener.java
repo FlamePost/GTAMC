@@ -924,7 +924,11 @@ public class GunListener implements Listener {
                         e.setDamage(6);
                     }
                     if(s.getCustomName().equals("TIER5SHOTTY")) {
-                        e.setDamage(8);
+                        if(e.getEntity() instanceof Player) {
+                            Player p = (Player) e.getEntity();
+                            p.setFireTicks(20);
+                        }
+                        e.setDamage(10);
                     }
                 }
             }
