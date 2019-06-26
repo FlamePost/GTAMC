@@ -89,12 +89,16 @@ public class Core extends JavaPlugin {
     }
 
 
-    @Override
+     @Override
     public void onDisable() {
+        for(Player p : Bukkit.getOnlinePlayers()) {
+            p.kickPlayer("§c§lReloading Server");
+        }
         for(Player p : EconomyHandler.balances.keySet()) {
             EconomyHandler.setBalanceMYSQL(p, EconomyHandler.getBalance(p));
         }
     }
+
 
     public static Connection getSQLConnection() {
         return c;
