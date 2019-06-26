@@ -1,6 +1,7 @@
 package me.darthteddy1.gta.guns;
 
 import me.darthteddy1.gta.Core;
+import me.darthteddy1.gta.utils.MessageUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -10,8 +11,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -34,6 +33,10 @@ public class GunListener implements Listener {
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
         if (!(e.getAction().toString().contains("RIGHT"))) return;
+        if(e.getItem().getAmount() > 1) {
+         e.getPlayer().sendMessage(MessageUtils.PREFIX_BAD + "§cYou cannot use stacked weapons");
+            return;
+        }
         if (!reloading.containsKey(e.getPlayer())) {
             if(e.getItem() != null && e.getItem().getType() != null) {
                 if (e.getItem().getType() == Material.SUGAR_CANE) {
@@ -108,7 +111,7 @@ public class GunListener implements Listener {
                                     reload(e.getPlayer(), "§eFlamethrower §l» 200 «", 10);
                                 }
                                 setName(e.getItem(), e.getPlayer(), "§eFlamethrower §l» " + newAmmo + " «");
-                                 for(int i = 0; i < 7; i++) {
+                                for(int i = 0; i < 7; i++) {
                                     Snowball s = e.getPlayer().launchProjectile(Snowball.class);
                                     if(i == 0) {
                                         s.setVelocity(s.getVelocity());
@@ -227,6 +230,10 @@ public class GunListener implements Listener {
                                 s.setCustomNameVisible(false);
                                 setName(e.getItem(), e.getPlayer(), "§eMinigun §l» " + newAmmo + " «");
                                 newAmmo--;
+                                if (newAmmo == 0) {
+                                    reload(e.getPlayer(), "§eMinigun §l» 500 «", 30);
+                                    return;
+                                }
                                 Bukkit.getScheduler().scheduleSyncDelayedTask(Core.getInstance(), new Runnable() {
                                     @Override
                                     public void run() {
@@ -239,6 +246,10 @@ public class GunListener implements Listener {
                                 }, 1);
                                 setName(e.getItem(), e.getPlayer(), "§eMinigun §l» " + newAmmo + " «");
                                 newAmmo--;
+                                if (newAmmo == 0) {
+                                    reload(e.getPlayer(), "§eMinigun §l» 500 «", 30);
+                                    return;
+                                }
                                 Bukkit.getScheduler().scheduleSyncDelayedTask(Core.getInstance(), new Runnable() {
                                     @Override
                                     public void run() {
@@ -251,6 +262,10 @@ public class GunListener implements Listener {
                                 }, 2);
                                 setName(e.getItem(), e.getPlayer(), "§eMinigun §l» " + newAmmo + " «");
                                 newAmmo--;
+                                if (newAmmo == 0) {
+                                    reload(e.getPlayer(), "§eMinigun §l» 500 «", 30);
+                                    return;
+                                }
                                 Bukkit.getScheduler().scheduleSyncDelayedTask(Core.getInstance(), new Runnable() {
                                     @Override
                                     public void run() {
@@ -262,6 +277,10 @@ public class GunListener implements Listener {
                                 }, 3);
                                 setName(e.getItem(), e.getPlayer(), "§eMinigun §l» " + newAmmo + " «");
                                 newAmmo--;
+                                if (newAmmo == 0) {
+                                    reload(e.getPlayer(), "§eMinigun §l» 500 «", 30);
+                                    return;
+                                }
                                 Bukkit.getScheduler().scheduleSyncDelayedTask(Core.getInstance(), new Runnable() {
                                     @Override
                                     public void run() {
@@ -703,6 +722,224 @@ public class GunListener implements Listener {
                     }
                     e.setCancelled(true);
                 }
+
+                //Begin snipers
+
+                if (e.getItem().getType() == Material.WOOD_HOE) {
+                    if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
+                        if (getAmmo(e.getItem()) != -1) {
+                            Integer newAmmo = getAmmo(e.getItem()) - 1;
+                            if (!shot.containsKey(e.getPlayer())) {
+                                if (newAmmo < 0) {
+                                    reload(e.getPlayer(), e.getItem(), "§eTier1 Sniper Rifle §l» 4 «", 10, Material.NETHER_BRICK_ITEM, 4);
+                                } else {
+                                    cooldown(e.getPlayer(), e.getItem(), 4);
+                                    setName(e.getItem(), e.getPlayer(), "§eTier1 Sniper Rifle §l» " + newAmmo + " «");
+                                    Snowball s = e.getPlayer().launchProjectile(Snowball.class);
+                                    s.setVelocity(s.getVelocity().multiply(5));
+                                    s.setCustomName("TIER1SNIPE");
+                                    s.setCustomNameVisible(false);
+                                    if (newAmmo == 0) {
+                                        reload(e.getPlayer(), e.getItem(), "§eTier1 Sniper Rifle §l» 4 «", 10, Material.NETHER_BRICK_ITEM, 4);
+                                    }
+                                }
+                            } else {
+                                if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+                                    if (newAmmo < 0) {
+                                        reload(e.getPlayer(), e.getItem(), "§eTier1 Sniper Rifle §l» 4 «", 10, Material.NETHER_BRICK_ITEM, 4);
+                                    } else {
+                                        cooldown(e.getPlayer(), e.getItem(), 4);
+                                        setName(e.getItem(), e.getPlayer(), "§eTier1 Sniper Rifle §l» " + newAmmo + " «");
+                                        Snowball s = e.getPlayer().launchProjectile(Snowball.class);
+                                        s.setVelocity(s.getVelocity().multiply(5));
+                                        s.setCustomName("TIER1SNIPE");
+                                        s.setCustomNameVisible(false);
+                                        if (newAmmo == 0) {
+                                            reload(e.getPlayer(), e.getItem(), "§eTier1 Sniper Rifle §l» 4 «", 10, Material.NETHER_BRICK_ITEM, 4);
+                                        }
+                                    }
+                                }
+                            }
+
+                        } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
+                            setName(e.getItem(), e.getPlayer(), "§eTier1 Sniper Rifle §l» 4 «");
+                        }
+                    }
+                    e.setCancelled(true);
+                }
+
+                if (e.getItem().getType() == Material.STONE_HOE) {
+                    if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
+                        if (getAmmo(e.getItem()) != -1) {
+                            Integer newAmmo = getAmmo(e.getItem()) - 1;
+                            if (!shot.containsKey(e.getPlayer())) {
+                                if (newAmmo < 0) {
+                                    reload(e.getPlayer(), e.getItem(), "§6Tier2 Sniper Rifle §l» 4 «", 10, Material.NETHER_BRICK_ITEM, 4);
+                                } else {
+                                    cooldown(e.getPlayer(), e.getItem(), 4);
+                                    setName(e.getItem(), e.getPlayer(), "§6Tier2 Sniper Rifle §l» " + newAmmo + " «");
+                                    Snowball s = e.getPlayer().launchProjectile(Snowball.class);
+                                    s.setVelocity(s.getVelocity().multiply(5));
+                                    s.setCustomName("TIER2SNIPE");
+                                    s.setCustomNameVisible(false);
+                                    if (newAmmo == 0) {
+                                        reload(e.getPlayer(), e.getItem(), "§6Tier2 Sniper Rifle §l» 4 «", 10, Material.NETHER_BRICK_ITEM, 4);
+                                    }
+                                }
+                            } else {
+                                if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+                                    if (newAmmo < 0) {
+                                        reload(e.getPlayer(), e.getItem(), "§6Tier2 Sniper Rifle §l» 4 «", 10, Material.NETHER_BRICK_ITEM, 4);
+                                    } else {
+                                        cooldown(e.getPlayer(), e.getItem(), 4);
+                                        setName(e.getItem(), e.getPlayer(), "§6Tier2 Sniper Rifle §l» " + newAmmo + " «");
+                                        Snowball s = e.getPlayer().launchProjectile(Snowball.class);
+                                        s.setVelocity(s.getVelocity().multiply(5));
+                                        s.setCustomName("TIER2SNIPE");
+                                        s.setCustomNameVisible(false);
+                                        if (newAmmo == 0) {
+                                            reload(e.getPlayer(), e.getItem(), "§6Tier2 Sniper Rifle §l» 4 «", 10, Material.NETHER_BRICK_ITEM, 4);
+                                        }
+                                    }
+                                }
+                            }
+
+                        } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
+                            setName(e.getItem(), e.getPlayer(), "§6Tier2 Sniper Rifle §l» 4 «");
+                        }
+                    }
+                    e.setCancelled(true);
+                }
+
+                if (e.getItem().getType() == Material.GOLD_HOE) {
+                    if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
+                        if (getAmmo(e.getItem()) != -1) {
+                            Integer newAmmo = getAmmo(e.getItem()) - 1;
+                            if (!shot.containsKey(e.getPlayer())) {
+                                if (newAmmo < 0) {
+                                    reload(e.getPlayer(), e.getItem(), "§aTier3 Sniper Rifle §l» 6 «", 10, Material.NETHER_BRICK_ITEM, 6);
+                                } else {
+                                    cooldown(e.getPlayer(), e.getItem(), 4);
+                                    setName(e.getItem(), e.getPlayer(), "§aTier3 Sniper Rifle §l» " + newAmmo + " «");
+                                    Snowball s = e.getPlayer().launchProjectile(Snowball.class);
+                                    s.setVelocity(s.getVelocity().multiply(5));
+                                    s.setCustomName("TIER3SNIPE");
+                                    s.setCustomNameVisible(false);
+                                    if (newAmmo == 0) {
+                                        reload(e.getPlayer(), e.getItem(), "§aTier3 Sniper Rifle §l» 6 «", 10, Material.NETHER_BRICK_ITEM, 6);
+                                    }
+                                }
+                            } else {
+                                if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+                                    if (newAmmo < 0) {
+                                        reload(e.getPlayer(), e.getItem(), "§aTier3 Sniper Rifle §l» 6 «", 10, Material.NETHER_BRICK_ITEM, 6);
+                                    } else {
+                                        cooldown(e.getPlayer(), e.getItem(), 4);
+                                        setName(e.getItem(), e.getPlayer(), "§aTier3 Sniper Rifle §l» " + newAmmo + " «");
+                                        Snowball s = e.getPlayer().launchProjectile(Snowball.class);
+                                        s.setVelocity(s.getVelocity().multiply(5));
+                                        s.setCustomName("TIER3SNIPE");
+                                        s.setCustomNameVisible(false);
+                                        if (newAmmo == 0) {
+                                            reload(e.getPlayer(), e.getItem(), "§aTier3 Sniper Rifle §l» 6 «", 10, Material.NETHER_BRICK_ITEM, 6);
+                                        }
+                                    }
+                                }
+                            }
+
+                        } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
+                            setName(e.getItem(), e.getPlayer(), "§aTier3 Sniper Rifle §l» 6 «");
+                        }
+                    }
+                    e.setCancelled(true);
+                }
+
+                if (e.getItem().getType() == Material.IRON_HOE) {
+                    if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
+                        if (getAmmo(e.getItem()) != -1) {
+                            Integer newAmmo = getAmmo(e.getItem()) - 1;
+                            if (!shot.containsKey(e.getPlayer())) {
+                                if (newAmmo < 0) {
+                                    reload(e.getPlayer(), e.getItem(), "§dTier4 Sniper Rifle §l» 5 «", 10, Material.NETHER_BRICK_ITEM, 5);
+                                } else {
+                                    cooldown(e.getPlayer(), e.getItem(), 4);
+                                    setName(e.getItem(), e.getPlayer(), "§dTier4 Sniper Rifle §l» " + newAmmo + " «");
+                                    Snowball s = e.getPlayer().launchProjectile(Snowball.class);
+                                    s.setVelocity(s.getVelocity().multiply(5));
+                                    s.setCustomName("TIER4SNIPE");
+                                    s.setCustomNameVisible(false);
+                                    if (newAmmo == 0) {
+                                        reload(e.getPlayer(), e.getItem(), "§dTier4 Sniper Rifle §l» 5 «", 10, Material.NETHER_BRICK_ITEM, 5);
+                                    }
+                                }
+                            } else {
+                                if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+                                    if (newAmmo < 0) {
+                                        reload(e.getPlayer(), e.getItem(), "§dTier4 Sniper Rifle §l» 5 «", 10, Material.NETHER_BRICK_ITEM, 5);
+                                    } else {
+                                        cooldown(e.getPlayer(), e.getItem(), 4);
+                                        setName(e.getItem(), e.getPlayer(), "§dTier4 Sniper Rifle §l» " + newAmmo + " «");
+                                        Snowball s = e.getPlayer().launchProjectile(Snowball.class);
+                                        s.setVelocity(s.getVelocity().multiply(5));
+                                        s.setCustomName("TIER4SNIPE");
+                                        s.setCustomNameVisible(false);
+                                        if (newAmmo == 0) {
+                                            reload(e.getPlayer(), e.getItem(), "§dTier4 Sniper Rifle §l» 5 «", 10, Material.NETHER_BRICK_ITEM, 5);
+                                        }
+                                    }
+                                }
+                            }
+
+                        } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
+                            setName(e.getItem(), e.getPlayer(), "§dTier4 Sniper Rifle §l» 5 «");
+                        }
+                    }
+                    e.setCancelled(true);
+                }
+
+                if (e.getItem().getType() == Material.DIAMOND_HOE) {
+                    if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
+                        if (getAmmo(e.getItem()) != -1) {
+                            Integer newAmmo = getAmmo(e.getItem()) - 1;
+                            if (!shot.containsKey(e.getPlayer())) {
+                                if (newAmmo < 0) {
+                                    reload(e.getPlayer(), e.getItem(), "§bTier5 Sniper Rifle §l» 2 «", 10, Material.NETHER_BRICK_ITEM, 2);
+                                } else {
+                                    cooldown(e.getPlayer(), e.getItem(), 4);
+                                    setName(e.getItem(), e.getPlayer(), "§bTier5 Sniper Rifle §l» " + newAmmo + " «");
+                                    Snowball s = e.getPlayer().launchProjectile(Snowball.class);
+                                    s.setVelocity(s.getVelocity().multiply(8));
+                                    s.setCustomName("TIER5SNIPE");
+                                    s.setCustomNameVisible(false);
+                                    if (newAmmo == 0) {
+                                        reload(e.getPlayer(), e.getItem(), "§bTier5 Sniper Rifle §l» 2 «", 10, Material.NETHER_BRICK_ITEM, 2);
+                                    }
+                                }
+                            } else {
+                                if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+                                    if (newAmmo < 0) {
+                                        reload(e.getPlayer(), e.getItem(), "§bTier5 Sniper Rifle §l» 2 «", 10, Material.NETHER_BRICK_ITEM, 2);
+                                    } else {
+                                        cooldown(e.getPlayer(), e.getItem(), 4);
+                                        setName(e.getItem(), e.getPlayer(), "§bTier5 Sniper Rifle §l» " + newAmmo + " «");
+                                        Snowball s = e.getPlayer().launchProjectile(Snowball.class);
+                                        s.setVelocity(s.getVelocity().multiply(8));
+                                        s.setCustomName("TIER5SNIPE");
+                                        s.setCustomNameVisible(false);
+                                        if (newAmmo == 0) {
+                                            reload(e.getPlayer(), e.getItem(), "§bTier5 Sniper Rifle §l» 2 «", 10, Material.NETHER_BRICK_ITEM, 2);
+                                        }
+                                    }
+                                }
+                            }
+
+                        } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
+                            setName(e.getItem(), e.getPlayer(), "§bTier5 Sniper Rifle §l» 2 «");
+                        }
+                    }
+                    e.setCancelled(true);
+                }
+
             }
         } else {
             reloading.remove(e.getPlayer());
@@ -789,6 +1026,27 @@ public class GunListener implements Listener {
                 reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§bTier5 Assault Rifle §l» 35 «", 15, Material.IRON_INGOT, (35 - (getAmmo(e.getItemDrop().getItemStack()))));
                 e.setCancelled(true);
             }
+            if (e.getItemDrop().getItemStack().getType() == Material.WOOD_HOE) {
+                reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§eTier1 Sniper Rifle §l» 4 «", 10, Material.NETHER_BRICK_ITEM, (4 - (getAmmo(e.getItemDrop().getItemStack()))));
+                e.setCancelled(true);
+            }
+        if (e.getItemDrop().getItemStack().getType() == Material.STONE_HOE) {
+            reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§6Tier2 Sniper Rifle §l» 4 «", 10, Material.NETHER_BRICK_ITEM, (4 - (getAmmo(e.getItemDrop().getItemStack()))));
+            e.setCancelled(true);
+        }
+        if (e.getItemDrop().getItemStack().getType() == Material.GOLD_HOE) {
+            reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§aTier3 Sniper Rifle §l» 6 «", 10, Material.NETHER_BRICK_ITEM, (6 - (getAmmo(e.getItemDrop().getItemStack()))));
+            e.setCancelled(true);
+        }
+        if (e.getItemDrop().getItemStack().getType() == Material.IRON_HOE) {
+            reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§dTier4 Sniper Rifle §l» 5 «", 10, Material.NETHER_BRICK_ITEM, (5 - (getAmmo(e.getItemDrop().getItemStack()))));
+            e.setCancelled(true);
+        }
+        if (e.getItemDrop().getItemStack().getType() == Material.DIAMOND_HOE) {
+            reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§bTier5 Sniper Rifle §l» 2 «", 10, Material.NETHER_BRICK_ITEM, (2 - (getAmmo(e.getItemDrop().getItemStack()))));
+            e.setCancelled(true);
+        }
+
     }
 
     @EventHandler
@@ -900,6 +1158,21 @@ public class GunListener implements Listener {
                     }
                     if (s.getCustomName().equals("TIER5AR")) {
                         e.setDamage(6);
+                    }
+                    if (s.getCustomName().equals("TIER1SNIPE")) {
+                        e.setDamage(4);
+                    }
+                    if (s.getCustomName().equals("TIER2SNIPE")) {
+                        e.setDamage(6);
+                    }
+                    if (s.getCustomName().equals("TIER3SNIPE")) {
+                        e.setDamage(7);
+                    }
+                    if (s.getCustomName().equals("TIER4SNIPE")) {
+                        e.setDamage(8);
+                    }
+                    if (s.getCustomName().equals("TIER5SNIPE")) {
+                        e.setDamage(12);
                     }
                 }
             }
@@ -1013,7 +1286,7 @@ public class GunListener implements Listener {
             @Override
             public void run() {
                 if (reloading.containsKey(p)) {
-                    if (p.getItemInHand().isSimilar(reloading.get(p))) {
+                    if (p.getItemInHand() != null && p.getItemInHand().isSimilar(reloading.get(p))) {
                         if (t == 0) {
                             setName(p.getItemInHand(), p, name);
                             reloading.remove(p);
@@ -1077,7 +1350,7 @@ public class GunListener implements Listener {
                                 }
                             }
                             if(!foundAmmo) {
-                                p.sendMessage("§c§lCannot reload (§7No Ammo§c§l)");
+                                p.sendMessage("§c§lCannot reload (§7Not Enough Ammo§c§l)");
                             } else {
                                 setName(p.getItemInHand(), p, name);
                             }
