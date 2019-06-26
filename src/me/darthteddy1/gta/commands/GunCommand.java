@@ -28,19 +28,19 @@ public class GunCommand implements CommandExecutor {
 
     private void openGunGUI(Player p) {
         Inventory inv = Bukkit.createInventory(null, 54, "§c§lGuns");
-        inv.addItem(ItemUtils.createItemStack("§eBlow Gun §l» 1 «", Arrays.asList("§eTier: §c§lCHEATCODE", " ", "§7A hand-carved blow gun"), Material.SUGAR_CANE));
-        inv.addItem(ItemUtils.createItemStack("§eTaser §l» 2 «", Arrays.asList("§eTier: §c§lCHEATCODE", " ", "§7A military grade taser"), Material.FEATHER));
-        inv.addItem(ItemUtils.createItemStack("§eFlamethrower §l» 200 «", Arrays.asList("§eTier: §c§lCHEATCODE", " ", "§7A pyromaniac's favorite weapon"), Material.FLINT_AND_STEEL));
-        inv.addItem(ItemUtils.createItemStack("§5Enderstaff §l» 10 «", Arrays.asList("§eTier: §c§lCHEATCODE", " ", "§7A staff forged from the skin", "§7of the enderdragon"), Material.CARROT_STICK));
-        inv.addItem(ItemUtils.createItemStack("§eJetpack §l» 50 «", Arrays.asList("§eTier: §c§lCHEATCODE", " ", "§7Fly through the skies", "§7of the enderdragon"), Material.DOUBLE_PLANT));
-        inv.addItem(ItemUtils.createItemStack("§eMinigun §l» 500 «", Arrays.asList("§eTier: §c§lCHEATCODE", " ", "§7So.. much.. firepower..."), Material.LEASH));
-        inv.addItem(ItemUtils.createItemStack("§eBazooka §l» 1 «", Arrays.asList("§eTier: §c§lCHEATCODE", " ", "§7Explosions? Explosions."), Material.IRON_BARDING));
+        inv.addItem(ItemUtils.createItemStack("§eBlow Gun §l» 1 «", Arrays.asList(" ","§7Tier: §9§k6","§7Type: §c§lCHEATCODE","§7Ammo Type: §cNone", " ", "§7A hand-carved blow gun", " "), Material.SUGAR_CANE));
+        inv.addItem(ItemUtils.createItemStack("§eTaser §l» 2 «", Arrays.asList(" ","§7Tier: §9§k6","§7Type: §c§lCHEATCODE","§7Ammo Type: §cNone", " ", "§7A military grade taser", " "), Material.FEATHER));
+        inv.addItem(ItemUtils.createItemStack("§eFlamethrower §l» 200 «", Arrays.asList(" ","§7Tier: §9§k6","§7Type: §c§lCHEATCODE","§7Ammo Type: §cNone", " ", "§7A pyromaniac's favorite weapon", " "), Material.FLINT_AND_STEEL));
+        inv.addItem(ItemUtils.createItemStack("§5Enderstaff §l» 10 «", Arrays.asList(" ","§7Tier: §9§k6","§7Type: §c§lCHEATCODE","§7Ammo Type: §cNone", " ", "§7A staff forged from the skin", "§7of the enderdragon", " "), Material.CARROT_STICK));
+        inv.addItem(ItemUtils.createItemStack("§eJetpack §l» 50 «", Arrays.asList(" ","§7Tier: §9§k6","§7Type: §c§lCHEATCODE","§7Ammo Type: §cNone", " ", "§7Fly through the skies", "§7of the enderdragon", " "), Material.DOUBLE_PLANT));
+        inv.addItem(ItemUtils.createItemStack("§eMinigun §l» 500 «", Arrays.asList(" ","§7Tier: §9§k6","§7Type: §c§lCHEATCODE","§7Ammo Type: §cNone", " ", "§7So.. much.. firepower...", " "), Material.LEASH));
+        inv.addItem(ItemUtils.createItemStack("§eBazooka §l» 1 «", Arrays.asList(" ","§7Tier: §9§k6","§7Type: §c§lCHEATCODE","§7Ammo Type: §cNone", " ", "§7Explosions? Explosions.", " "), Material.IRON_BARDING));
 
-        inv.setItem(11,ItemUtils.createItemStack("§eTier1 Sniper Rifle §l» 4 «", Arrays.asList(" ", "§7Tier: §e1", "§7Type: §eSniper Rifle", "§7Ammo Type: §cSniper Rifle §a(Nether Brick)", " ", "§7For a playground sniper"), Material.WOOD_HOE));
-        inv.setItem(20,ItemUtils.createItemStack("§6Tier2 Sniper Rifle §l» 4 «", Arrays.asList(" ", "§7Tier: §62", "§7Type: §6Sniper Rifle", "§7Ammo Type: §cSniper Rifle §a(Nether Brick)", " ", "§7It's decent... for a start"), Material.STONE_HOE));
-        inv.setItem(29,ItemUtils.createItemStack("§aTier3 Sniper Rifle §l» 6 «", Arrays.asList(" ", "§7Tier: §a3", "§7Type: §aSniper Rifle", "§7Ammo Type: §cSniper Rifle §a(Nether Brick)", " ", "§7Standard grade sniper rifle"), Material.GOLD_HOE));
-        inv.setItem(38,ItemUtils.createItemStack("§dTier4 Sniper Rifle §l» 5 «", Arrays.asList(" ", "§7Tier: §d4", "§7Type: §dSniper Rifle", "§7Ammo Type: §cSniper Rifle §a(Nether Brick)", " ", "§7Sniper rifle that has been modded"), Material.IRON_HOE));
-        inv.setItem(47,ItemUtils.createItemStack("§bTier5 Sniper Rifle §l» 2 «", Arrays.asList(" ", "§7Tier: §b5", "§7Type: §bSniper Rifle", "§7Ammo Type: §cSniper Rifle §a(Nether Brick)", " ", "§7Reserved for the best hitmen"), Material.DIAMOND_HOE));
+        inv.setItem(11,ItemUtils.createItemStack("§eTier1 Sniper Rifle §l» 4 «", Arrays.asList(" ", "§7Tier: §e1", "§7Type: §eSniper Rifle", "§7Ammo Type: §cSniper Rifle §a(Nether Brick)", " ", "§7For a playground sniper", " "), Material.WOOD_HOE));
+        inv.setItem(20,ItemUtils.createItemStack("§6Tier2 Sniper Rifle §l» 4 «", Arrays.asList(" ", "§7Tier: §62", "§7Type: §6Sniper Rifle", "§7Ammo Type: §cSniper Rifle §a(Nether Brick)", " ", "§7It's decent... for a start", " "), Material.STONE_HOE));
+        inv.setItem(29,ItemUtils.createItemStack("§aTier3 Sniper Rifle §l» 6 «", Arrays.asList(" ", "§7Tier: §a3", "§7Type: §aSniper Rifle", "§7Ammo Type: §cSniper Rifle §a(Nether Brick)", " ", "§7Standard grade sniper rifle", " "), Material.GOLD_HOE));
+        inv.setItem(38,ItemUtils.createItemStack("§dTier4 Sniper Rifle §l» 5 «", Arrays.asList(" ", "§7Tier: §d4", "§7Type: §dSniper Rifle", "§7Ammo Type: §cSniper Rifle §a(Nether Brick)", " ", "§7Sniper rifle that has been modded", " "), Material.IRON_HOE));
+        inv.setItem(47,ItemUtils.createItemStack("§bTier5 Sniper Rifle §l» 2 «", Arrays.asList(" ", "§7Tier: §b5", "§7Type: §bSniper Rifle", "§7Ammo Type: §cSniper Rifle §a(Nether Brick)", " ", "§7Reserved for the best hitmen", " "), Material.DIAMOND_HOE));
         inv.setItem(10,ItemUtils.createItemStack("§eTier1 Assault Rifle §l» 20 «", Arrays.asList(" ", "§7Tier: §e1", "§7Type: §eAssault Rifle", "§7Ammo Type: §cAssault Rifle §a(Iron Ingot)", " ", "§7A makeshift assault rifle"), Material.WOOD_PICKAXE));
         inv.setItem(19,ItemUtils.createItemStack("§6Tier2 Assault Rifle §l» 25 «", Arrays.asList(" ", "§7Tier: §62", "§7Type: §6Assault Rifle", "§7Ammo Type: §cAssault Rifle §a(Iron Ingot)", " ", "§7An assault rifle from the streets"), Material.STONE_PICKAXE));
         inv.setItem(28,ItemUtils.createItemStack("§aTier3 Assault Rifle §l» 25 «", Arrays.asList(" ", "§7Tier: §a3", "§7Type: §aAssault Rifle", "§7Ammo Type: §cAssault Rifle §a(Iron Ingot)", " ", "§7A police issued assault rifle"), Material.GOLD_PICKAXE));
