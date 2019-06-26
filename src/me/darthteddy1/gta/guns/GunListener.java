@@ -733,7 +733,7 @@ public class GunListener implements Listener {
                                 if (newAmmo < 0) {
                                     reload(e.getPlayer(), e.getItem(), "§eTier1 Sniper Rifle §l» 4 «", 10, Material.NETHER_BRICK_ITEM, 4);
                                 } else {
-                                    cooldown(e.getPlayer(), e.getItem(), 4);
+                                    cooldown(e.getPlayer(), e.getItem(), 80);
                                     setName(e.getItem(), e.getPlayer(), "§eTier1 Sniper Rifle §l» " + newAmmo + " «");
                                     Snowball s = e.getPlayer().launchProjectile(Snowball.class);
                                     s.setVelocity(s.getVelocity().multiply(5));
@@ -748,7 +748,7 @@ public class GunListener implements Listener {
                                     if (newAmmo < 0) {
                                         reload(e.getPlayer(), e.getItem(), "§eTier1 Sniper Rifle §l» 4 «", 10, Material.NETHER_BRICK_ITEM, 4);
                                     } else {
-                                        cooldown(e.getPlayer(), e.getItem(), 4);
+                                        cooldown(e.getPlayer(), e.getItem(), 80);
                                         setName(e.getItem(), e.getPlayer(), "§eTier1 Sniper Rifle §l» " + newAmmo + " «");
                                         Snowball s = e.getPlayer().launchProjectile(Snowball.class);
                                         s.setVelocity(s.getVelocity().multiply(5));
@@ -776,7 +776,7 @@ public class GunListener implements Listener {
                                 if (newAmmo < 0) {
                                     reload(e.getPlayer(), e.getItem(), "§6Tier2 Sniper Rifle §l» 4 «", 10, Material.NETHER_BRICK_ITEM, 4);
                                 } else {
-                                    cooldown(e.getPlayer(), e.getItem(), 4);
+                                    cooldown(e.getPlayer(), e.getItem(), 80);
                                     setName(e.getItem(), e.getPlayer(), "§6Tier2 Sniper Rifle §l» " + newAmmo + " «");
                                     Snowball s = e.getPlayer().launchProjectile(Snowball.class);
                                     s.setVelocity(s.getVelocity().multiply(5));
@@ -791,7 +791,7 @@ public class GunListener implements Listener {
                                     if (newAmmo < 0) {
                                         reload(e.getPlayer(), e.getItem(), "§6Tier2 Sniper Rifle §l» 4 «", 10, Material.NETHER_BRICK_ITEM, 4);
                                     } else {
-                                        cooldown(e.getPlayer(), e.getItem(), 4);
+                                        cooldown(e.getPlayer(), e.getItem(), 80);
                                         setName(e.getItem(), e.getPlayer(), "§6Tier2 Sniper Rifle §l» " + newAmmo + " «");
                                         Snowball s = e.getPlayer().launchProjectile(Snowball.class);
                                         s.setVelocity(s.getVelocity().multiply(5));
@@ -819,7 +819,7 @@ public class GunListener implements Listener {
                                 if (newAmmo < 0) {
                                     reload(e.getPlayer(), e.getItem(), "§aTier3 Sniper Rifle §l» 6 «", 10, Material.NETHER_BRICK_ITEM, 6);
                                 } else {
-                                    cooldown(e.getPlayer(), e.getItem(), 4);
+                                    cooldown(e.getPlayer(), e.getItem(), 80);
                                     setName(e.getItem(), e.getPlayer(), "§aTier3 Sniper Rifle §l» " + newAmmo + " «");
                                     Snowball s = e.getPlayer().launchProjectile(Snowball.class);
                                     s.setVelocity(s.getVelocity().multiply(5));
@@ -834,7 +834,7 @@ public class GunListener implements Listener {
                                     if (newAmmo < 0) {
                                         reload(e.getPlayer(), e.getItem(), "§aTier3 Sniper Rifle §l» 6 «", 10, Material.NETHER_BRICK_ITEM, 6);
                                     } else {
-                                        cooldown(e.getPlayer(), e.getItem(), 4);
+                                        cooldown(e.getPlayer(), e.getItem(), 80);
                                         setName(e.getItem(), e.getPlayer(), "§aTier3 Sniper Rifle §l» " + newAmmo + " «");
                                         Snowball s = e.getPlayer().launchProjectile(Snowball.class);
                                         s.setVelocity(s.getVelocity().multiply(5));
@@ -862,7 +862,7 @@ public class GunListener implements Listener {
                                 if (newAmmo < 0) {
                                     reload(e.getPlayer(), e.getItem(), "§dTier4 Sniper Rifle §l» 5 «", 10, Material.NETHER_BRICK_ITEM, 5);
                                 } else {
-                                    cooldown(e.getPlayer(), e.getItem(), 4);
+                                    cooldown(e.getPlayer(), e.getItem(), 80);
                                     setName(e.getItem(), e.getPlayer(), "§dTier4 Sniper Rifle §l» " + newAmmo + " «");
                                     Snowball s = e.getPlayer().launchProjectile(Snowball.class);
                                     s.setVelocity(s.getVelocity().multiply(5));
@@ -877,7 +877,7 @@ public class GunListener implements Listener {
                                     if (newAmmo < 0) {
                                         reload(e.getPlayer(), e.getItem(), "§dTier4 Sniper Rifle §l» 5 «", 10, Material.NETHER_BRICK_ITEM, 5);
                                     } else {
-                                        cooldown(e.getPlayer(), e.getItem(), 4);
+                                        cooldown(e.getPlayer(), e.getItem(), 80);
                                         setName(e.getItem(), e.getPlayer(), "§dTier4 Sniper Rifle §l» " + newAmmo + " «");
                                         Snowball s = e.getPlayer().launchProjectile(Snowball.class);
                                         s.setVelocity(s.getVelocity().multiply(5));
@@ -905,7 +905,7 @@ public class GunListener implements Listener {
                                 if (newAmmo < 0) {
                                     reload(e.getPlayer(), e.getItem(), "§bTier5 Sniper Rifle §l» 2 «", 10, Material.NETHER_BRICK_ITEM, 2);
                                 } else {
-                                    cooldown(e.getPlayer(), e.getItem(), 4);
+                                    cooldown(e.getPlayer(), e.getItem(), 40);
                                     setName(e.getItem(), e.getPlayer(), "§bTier5 Sniper Rifle §l» " + newAmmo + " «");
                                     Snowball s = e.getPlayer().launchProjectile(Snowball.class);
                                     s.setVelocity(s.getVelocity().multiply(8));
@@ -920,7 +920,7 @@ public class GunListener implements Listener {
                                     if (newAmmo < 0) {
                                         reload(e.getPlayer(), e.getItem(), "§bTier5 Sniper Rifle §l» 2 «", 10, Material.NETHER_BRICK_ITEM, 2);
                                     } else {
-                                        cooldown(e.getPlayer(), e.getItem(), 4);
+                                        cooldown(e.getPlayer(), e.getItem(), 40);
                                         setName(e.getItem(), e.getPlayer(), "§bTier5 Sniper Rifle §l» " + newAmmo + " «");
                                         Snowball s = e.getPlayer().launchProjectile(Snowball.class);
                                         s.setVelocity(s.getVelocity().multiply(8));
