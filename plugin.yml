@@ -16,3 +16,4 @@ commands:
     setrank:
     bal:
     pay:
+    getammokey:
