@@ -37,6 +37,7 @@ public class GunListener implements Listener {
             if (!reloading.containsKey(e.getPlayer())) {
                 if (e.getItem() != null && e.getItem().getType() != null) {
                     if (e.getItem().getType() == Material.SUGAR_CANE) {
+                        e.setCancelled(true);
                         if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
                             if (e.getItem().getAmount() > 1) {
                                 e.getPlayer().sendMessage(MessageUtils.PREFIX_BAD + "§cYou cannot use stacked weapons");
@@ -63,6 +64,7 @@ public class GunListener implements Listener {
                         e.setCancelled(true);
                     }
                     if (e.getItem().getType() == Material.FEATHER) {
+                        e.setCancelled(true);
                         if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
                             if (e.getItem().getAmount() > 1) {
                                 e.getPlayer().sendMessage(MessageUtils.PREFIX_BAD + "§cYou cannot use stacked weapons");
@@ -106,6 +108,7 @@ public class GunListener implements Listener {
                         e.setCancelled(true);
                     }
                     if (e.getItem().getType() == Material.FLINT_AND_STEEL) {
+                        e.setCancelled(true);
                         if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
                             if (getAmmo(e.getItem()) != -1) {
                                 Integer newAmmo = getAmmo(e.getItem()) - 1;
@@ -144,6 +147,7 @@ public class GunListener implements Listener {
                         e.setCancelled(true);
                     }
                     if (e.getItem().getType() == Material.CARROT_STICK) {
+                        e.setCancelled(true);
                         if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
                             if (getAmmo(e.getItem()) != -1) {
                                 Integer newAmmo = getAmmo(e.getItem()) - 1;
@@ -183,6 +187,7 @@ public class GunListener implements Listener {
                         e.setCancelled(true);
                     }
                     if (e.getItem().getType() == Material.DOUBLE_PLANT) {
+                        e.setCancelled(true);
                         if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
                             if (e.getItem().getAmount() > 1) {
                                 e.getPlayer().sendMessage(MessageUtils.PREFIX_BAD + "§cYou cannot use stacked weapons");
@@ -224,6 +229,7 @@ public class GunListener implements Listener {
                         e.setCancelled(true);
                     }
                     if (e.getItem().getType() == Material.LEASH) {
+                        e.setCancelled(true);
                         if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
                             if (e.getItem().getAmount() > 1) {
                                 e.getPlayer().sendMessage(MessageUtils.PREFIX_BAD + "§cYou cannot use stacked weapons");
@@ -313,6 +319,7 @@ public class GunListener implements Listener {
                         e.setCancelled(true);
                     }
                     if (e.getItem().getType() == Material.IRON_BARDING) {
+                        e.setCancelled(true);
                         if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
                             if (getAmmo(e.getItem()) != -1) {
                                 Integer newAmmo = getAmmo(e.getItem()) - 1;
@@ -337,6 +344,7 @@ public class GunListener implements Listener {
                     //Begin Tier Weapons
 
                     if (e.getItem().getType() == Material.WOOD_SPADE) {
+                        e.setCancelled(true);
                         if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
                             if (getAmmo(e.getItem()) != -1) {
                                 Integer newAmmo = getAmmo(e.getItem()) - 1;
@@ -374,6 +382,7 @@ public class GunListener implements Listener {
                     }
 
                     if (e.getItem().getType() == Material.STONE_SPADE) {
+                        e.setCancelled(true);
                         if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
                             if (getAmmo(e.getItem()) != -1) {
                                 Integer newAmmo = getAmmo(e.getItem()) - 1;
@@ -410,6 +419,7 @@ public class GunListener implements Listener {
                         e.setCancelled(true);
                     }
                     if (e.getItem().getType() == Material.GOLD_SPADE) {
+                        e.setCancelled(true);
                         if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
                             if (getAmmo(e.getItem()) != -1) {
                                 Integer newAmmo = getAmmo(e.getItem()) - 1;
@@ -446,6 +456,7 @@ public class GunListener implements Listener {
                         e.setCancelled(true);
                     }
                     if (e.getItem().getType() == Material.IRON_SPADE) {
+                        e.setCancelled(true);
                         if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
                             if (getAmmo(e.getItem()) != -1) {
                                 Integer newAmmo = getAmmo(e.getItem()) - 1;
@@ -482,6 +493,7 @@ public class GunListener implements Listener {
                         e.setCancelled(true);
                     }
                     if (e.getItem().getType() == Material.DIAMOND_SPADE) {
+                        e.setCancelled(true);
                         if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
                             if (getAmmo(e.getItem()) != -1) {
                                 Integer newAmmo = getAmmo(e.getItem()) - 1;
@@ -522,6 +534,7 @@ public class GunListener implements Listener {
                     //Assault rifles by tier
 
                     if (e.getItem().getType() == Material.WOOD_PICKAXE) {
+                        e.setCancelled(true);
                         if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
                             if (getAmmo(e.getItem()) != -1) {
                                 Integer newAmmo = getAmmo(e.getItem()) - 1;
@@ -565,6 +578,7 @@ public class GunListener implements Listener {
                     }
 
                     if (e.getItem().getType() == Material.STONE_PICKAXE) {
+                        e.setCancelled(true);
                         if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
                             if (getAmmo(e.getItem()) != -1) {
                                 Integer newAmmo = getAmmo(e.getItem()) - 1;
@@ -608,6 +622,7 @@ public class GunListener implements Listener {
                     }
 
                     if (e.getItem().getType() == Material.GOLD_PICKAXE) {
+                        e.setCancelled(true);
                         if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
                             if (getAmmo(e.getItem()) != -1) {
                                 Integer newAmmo = getAmmo(e.getItem()) - 1;
@@ -651,6 +666,7 @@ public class GunListener implements Listener {
                     }
 
                     if (e.getItem().getType() == Material.IRON_PICKAXE) {
+                        e.setCancelled(true);
                         if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
                             if (getAmmo(e.getItem()) != -1) {
                                 Integer newAmmo = getAmmo(e.getItem()) - 1;
@@ -694,6 +710,7 @@ public class GunListener implements Listener {
                     }
 
                     if (e.getItem().getType() == Material.DIAMOND_PICKAXE) {
+                        e.setCancelled(true);
                         if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
                             if (getAmmo(e.getItem()) != -1) {
                                 Integer newAmmo = getAmmo(e.getItem()) - 1;
@@ -739,6 +756,7 @@ public class GunListener implements Listener {
                     //Begin snipers
 
                     if (e.getItem().getType() == Material.WOOD_HOE) {
+                        e.setCancelled(true);
                         if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
                             if (getAmmo(e.getItem()) != -1) {
                                 Integer newAmmo = getAmmo(e.getItem()) - 1;
@@ -782,6 +800,7 @@ public class GunListener implements Listener {
                     }
 
                     if (e.getItem().getType() == Material.STONE_HOE) {
+                        e.setCancelled(true);
                         if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
                             if (getAmmo(e.getItem()) != -1) {
                                 Integer newAmmo = getAmmo(e.getItem()) - 1;
@@ -825,6 +844,7 @@ public class GunListener implements Listener {
                     }
 
                     if (e.getItem().getType() == Material.GOLD_HOE) {
+                        e.setCancelled(true);
                         if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
                             if (getAmmo(e.getItem()) != -1) {
                                 Integer newAmmo = getAmmo(e.getItem()) - 1;
@@ -868,6 +888,7 @@ public class GunListener implements Listener {
                     }
 
                     if (e.getItem().getType() == Material.IRON_HOE) {
+                        e.setCancelled(true);
                         if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
                             if (getAmmo(e.getItem()) != -1) {
                                 Integer newAmmo = getAmmo(e.getItem()) - 1;
@@ -911,6 +932,7 @@ public class GunListener implements Listener {
                     }
 
                     if (e.getItem().getType() == Material.DIAMOND_HOE) {
+                        e.setCancelled(true);
                         if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
                             if (getAmmo(e.getItem()) != -1) {
                                 Integer newAmmo = getAmmo(e.getItem()) - 1;
@@ -973,32 +995,46 @@ public class GunListener implements Listener {
     @EventHandler
     public void onDrop(PlayerDropItemEvent e) {
             if (e.getItemDrop().getItemStack().getType() == Material.DOUBLE_PLANT) {
-                reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§eJetpack §l» 50 «", 15);
-                e.setCancelled(true);
+                if(getAmmo(e.getItemDrop().getItemStack()) != 50) {
+                    reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§eJetpack §l» 50 «", 15);
+                    e.setCancelled(true);
+                }
             }
             if (e.getItemDrop().getItemStack().getType() == Material.FEATHER) {
-                reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§eTaser §l» 2 «", 10);
-                e.setCancelled(true);
+                if(getAmmo(e.getItemDrop().getItemStack()) != 2) {
+                    reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§eTaser §l» 2 «", 10);
+                    e.setCancelled(true);
+                }
             }
             if (e.getItemDrop().getItemStack().getType() == Material.FLINT_AND_STEEL) {
-                reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§eFlamethrower §l» 200 «", 10);
-                e.setCancelled(true);
+                if(getAmmo(e.getItemDrop().getItemStack()) != 200) {
+                    reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§eFlamethrower §l» 200 «", 10);
+                    e.setCancelled(true);
+                }
             }
             if (e.getItemDrop().getItemStack().getType() == Material.SUGAR_CANE) {
-                reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§eBlow Gun §l» 1 «", 10);
-                e.setCancelled(true);
+                if(getAmmo(e.getItemDrop().getItemStack()) != 1) {
+                    reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§eBlow Gun §l» 1 «", 10);
+                    e.setCancelled(true);
+                }
             }
             if (e.getItemDrop().getItemStack().getType() == Material.CARROT_STICK) {
-                reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§5Enderstaff §l» 10 «", 10);
-                e.setCancelled(true);
+                if(getAmmo(e.getItemDrop().getItemStack()) != 10) {
+                    reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§5Enderstaff §l» 10 «", 10);
+                    e.setCancelled(true);
+                }
             }
             if (e.getItemDrop().getItemStack().getType() == Material.LEASH) {
-                reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§eMinigun §l» 500 «", 30);
-                e.setCancelled(true);
+                if(getAmmo(e.getItemDrop().getItemStack()) != 500) {
+                    reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§eMinigun §l» 500 «", 30);
+                    e.setCancelled(true);
+                }
             }
             if (e.getItemDrop().getItemStack().getType() == Material.IRON_BARDING) {
-                reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§eBazooka §l» 1 «", 20);
-                e.setCancelled(true);
+                if(getAmmo(e.getItemDrop().getItemStack()) != 1) {
+                    reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§eBazooka §l» 1 «", 20);
+                    e.setCancelled(true);
+                }
             }
             if (e.getItemDrop().getItemStack().getType() == Material.WOOD_SPADE) {
                 reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§eTier1 Shotgun §l» 4 «", 10, Material.GOLD_INGOT, (4 - (getAmmo(e.getItemDrop().getItemStack()))));
@@ -1319,6 +1355,9 @@ public class GunListener implements Listener {
 
     private void reload(Player p, ItemStack i, String name, Integer time, Material ammo, int amt) {
         if(!reloading.containsKey(p)) {
+            if(amt == 0) {
+                return;
+            }
             p.sendMessage("§a§lReloading (§7" + time + " seconds§a§l)");
             reloading.put(p, i);
             boolean foundAmmo = false;
