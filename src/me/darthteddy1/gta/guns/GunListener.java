@@ -997,44 +997,44 @@ public class GunListener implements Listener {
             if (e.getItemDrop().getItemStack().getType() == Material.DOUBLE_PLANT) {
                 if(getAmmo(e.getItemDrop().getItemStack()) != 50) {
                     reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§eJetpack §l» 50 «", 15);
-                    e.setCancelled(true);
-                }
+                    }
+                e.setCancelled(true);
             }
             if (e.getItemDrop().getItemStack().getType() == Material.FEATHER) {
                 if(getAmmo(e.getItemDrop().getItemStack()) != 2) {
                     reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§eTaser §l» 2 «", 10);
-                    e.setCancelled(true);
-                }
+                    }
+                e.setCancelled(true);
             }
             if (e.getItemDrop().getItemStack().getType() == Material.FLINT_AND_STEEL) {
                 if(getAmmo(e.getItemDrop().getItemStack()) != 200) {
                     reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§eFlamethrower §l» 200 «", 10);
-                    e.setCancelled(true);
-                }
+                    }
+                e.setCancelled(true);
             }
             if (e.getItemDrop().getItemStack().getType() == Material.SUGAR_CANE) {
                 if(getAmmo(e.getItemDrop().getItemStack()) != 1) {
                     reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§eBlow Gun §l» 1 «", 10);
-                    e.setCancelled(true);
-                }
+                    }
+                e.setCancelled(true);
             }
             if (e.getItemDrop().getItemStack().getType() == Material.CARROT_STICK) {
                 if(getAmmo(e.getItemDrop().getItemStack()) != 10) {
                     reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§5Enderstaff §l» 10 «", 10);
-                    e.setCancelled(true);
-                }
+                    }
+                e.setCancelled(true);
             }
             if (e.getItemDrop().getItemStack().getType() == Material.LEASH) {
                 if(getAmmo(e.getItemDrop().getItemStack()) != 500) {
                     reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§eMinigun §l» 500 «", 30);
-                    e.setCancelled(true);
-                }
+                    }
+                e.setCancelled(true);
             }
             if (e.getItemDrop().getItemStack().getType() == Material.IRON_BARDING) {
                 if(getAmmo(e.getItemDrop().getItemStack()) != 1) {
                     reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§eBazooka §l» 1 «", 20);
-                    e.setCancelled(true);
                 }
+                e.setCancelled(true);
             }
             if (e.getItemDrop().getItemStack().getType() == Material.WOOD_SPADE) {
                 reload(e.getPlayer(), e.getItemDrop().getItemStack(), "§eTier1 Shotgun §l» 4 «", 10, Material.GOLD_INGOT, (4 - (getAmmo(e.getItemDrop().getItemStack()))));
