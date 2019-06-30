@@ -50,3 +50,5 @@ Commands:
 /summoncop: Spawns a cop to your location (Requires: OWNER or ADMIN rank)
 
 /vanish: Hides you (Requires: OWNER, ADMIN, or MOD rank)
+
+/getammokey: Gives you an ammo key (this is a test command, and is planned on being replaced with a proper one. If putting this plugin on a live server pls disable this command as it has no permissions needed)
