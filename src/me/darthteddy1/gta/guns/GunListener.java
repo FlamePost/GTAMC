@@ -33,53 +33,44 @@ public class GunListener implements Listener {
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
         if (!(e.getAction().toString().contains("RIGHT"))) return;
-        if(e.getItem().getAmount() > 1) {
-         e.getPlayer().sendMessage(MessageUtils.PREFIX_BAD + "§cYou cannot use stacked weapons");
-            return;
-        }
-        if (!reloading.containsKey(e.getPlayer())) {
-            if(e.getItem() != null && e.getItem().getType() != null) {
-                if (e.getItem().getType() == Material.SUGAR_CANE) {
-                    if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
-                        if (getAmmo(e.getItem()) != -1) {
-                            Integer newAmmo = getAmmo(e.getItem()) - 1;
-                            if (newAmmo < 0) {
-                                reload(e.getPlayer(), "§eBlow Gun §l» 1 «", 10);
-                            } else {
-                                if (newAmmo == 0) {
-                                    reload(e.getPlayer(), "§eBlow Gun §l» 1 «", 10);
-                                }
-                                setName(e.getItem(), e.getPlayer(), "§eBlow Gun §l» " + newAmmo + " «");
-                                Arrow s = e.getPlayer().launchProjectile(Arrow.class);
-                                s.setVelocity(s.getVelocity().multiply(20));
-                                s.setCustomName("BLOWDART");
-                                s.setCustomNameVisible(false);
+        if(e.getItem() != null) {
+            if (!reloading.containsKey(e.getPlayer())) {
+                if (e.getItem() != null && e.getItem().getType() != null) {
+                    if (e.getItem().getType() == Material.SUGAR_CANE) {
+                        if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
+                            if (e.getItem().getAmount() > 1) {
+                                e.getPlayer().sendMessage(MessageUtils.PREFIX_BAD + "§cYou cannot use stacked weapons");
+                                return;
                             }
-                        } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
-                            setName(e.getItem(), e.getPlayer(), "§eBlow Gun §l» 1 «");
-                        }
-                    }
-                    e.setCancelled(true);
-                }
-                if (e.getItem().getType() == Material.FEATHER) {
-                    if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
-                        if (getAmmo(e.getItem()) != -1) {
-                            Integer newAmmo = getAmmo(e.getItem()) - 1;
-                            if (!shot.containsKey(e.getPlayer())) {
+                            if (getAmmo(e.getItem()) != -1) {
+                                Integer newAmmo = getAmmo(e.getItem()) - 1;
                                 if (newAmmo < 0) {
-                                    reload(e.getPlayer(), "§eTaser §l» 2 «", 10);
+                                    reload(e.getPlayer(), "§eBlow Gun §l» 1 «", 10);
                                 } else {
                                     if (newAmmo == 0) {
-                                        reload(e.getPlayer(), "§eTaser §l» 2 «", 10);
+                                        reload(e.getPlayer(), "§eBlow Gun §l» 1 «", 10);
                                     }
-                                    cooldown(e.getPlayer(), e.getItem(), 35);
-                                    setName(e.getItem(), e.getPlayer(), "§eTaser §l» " + newAmmo + " «");
+                                    setName(e.getItem(), e.getPlayer(), "§eBlow Gun §l» " + newAmmo + " «");
                                     Arrow s = e.getPlayer().launchProjectile(Arrow.class);
-                                    s.setCustomName("TASERPIN");
+                                    s.setVelocity(s.getVelocity().multiply(20));
+                                    s.setCustomName("BLOWDART");
                                     s.setCustomNameVisible(false);
                                 }
-                            } else {
-                                if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+                            } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
+                                setName(e.getItem(), e.getPlayer(), "§eBlow Gun §l» 1 «");
+                            }
+                        }
+                        e.setCancelled(true);
+                    }
+                    if (e.getItem().getType() == Material.FEATHER) {
+                        if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
+                            if (e.getItem().getAmount() > 1) {
+                                e.getPlayer().sendMessage(MessageUtils.PREFIX_BAD + "§cYou cannot use stacked weapons");
+                                return;
+                            }
+                            if (getAmmo(e.getItem()) != -1) {
+                                Integer newAmmo = getAmmo(e.getItem()) - 1;
+                                if (!shot.containsKey(e.getPlayer())) {
                                     if (newAmmo < 0) {
                                         reload(e.getPlayer(), "§eTaser §l» 2 «", 10);
                                     } else {
@@ -92,71 +83,72 @@ public class GunListener implements Listener {
                                         s.setCustomName("TASERPIN");
                                         s.setCustomNameVisible(false);
                                     }
-                                }
-                            }
-                        } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
-                            setName(e.getItem(), e.getPlayer(), "§eTaser §l» 2 «");
-                        }
-                    }
-                    e.setCancelled(true);
-                }
-                if (e.getItem().getType() == Material.FLINT_AND_STEEL) {
-                    if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
-                        if (getAmmo(e.getItem()) != -1) {
-                            Integer newAmmo = getAmmo(e.getItem()) - 1;
-                            if (newAmmo < 0) {
-                                reload(e.getPlayer(), "§eFlamethrower §l» 200 «", 10);
-                            } else {
-                                if (newAmmo == 0) {
-                                    reload(e.getPlayer(), "§eFlamethrower §l» 200 «", 10);
-                                }
-                                setName(e.getItem(), e.getPlayer(), "§eFlamethrower §l» " + newAmmo + " «");
-                                for(int i = 0; i < 7; i++) {
-                                    Snowball s = e.getPlayer().launchProjectile(Snowball.class);
-                                    if(i == 0) {
-                                        s.setVelocity(s.getVelocity());
-                                    } else if(i == 1) {
-                                        s.setVelocity(s.getVelocity().add(new Vector(0, 0.3, 0)));
-                                    } else if(i == 2) {
-                                        s.setVelocity(s.getVelocity().add(new Vector(0.5, 0.3, 0)));
-                                    } else if(i == 3) {
-                                        s.setVelocity(s.getVelocity().add(new Vector(0, 0.3, 0.5)));
-                                    } else if(i == 4) {
-                                        s.setVelocity(s.getVelocity().add(new Vector(0, -0.1, 0)));
-                                    } else if(i == 5) {
-                                        s.setVelocity(s.getVelocity().add(new Vector(0.5, -0.1, 0)));
-                                    } else if(i == 6) {
-                                        s.setVelocity(s.getVelocity().add(new Vector(0, -0.1, 0.5)));
+                                } else {
+                                    if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+                                        if (newAmmo < 0) {
+                                            reload(e.getPlayer(), "§eTaser §l» 2 «", 10);
+                                        } else {
+                                            if (newAmmo == 0) {
+                                                reload(e.getPlayer(), "§eTaser §l» 2 «", 10);
+                                            }
+                                            cooldown(e.getPlayer(), e.getItem(), 35);
+                                            setName(e.getItem(), e.getPlayer(), "§eTaser §l» " + newAmmo + " «");
+                                            Arrow s = e.getPlayer().launchProjectile(Arrow.class);
+                                            s.setCustomName("TASERPIN");
+                                            s.setCustomNameVisible(false);
+                                        }
                                     }
-                                    s.setCustomName("FLAME");
-                                    s.setCustomNameVisible(false);
                                 }
+                            } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
+                                setName(e.getItem(), e.getPlayer(), "§eTaser §l» 2 «");
                             }
-                        } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
-                            setName(e.getItem(), e.getPlayer(), "§eFlamethrower §l» 200 «");
                         }
+                        e.setCancelled(true);
                     }
-                    e.setCancelled(true);
-                }
-                if (e.getItem().getType() == Material.CARROT_STICK) {
-                    if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
-                        if (getAmmo(e.getItem()) != -1) {
-                            Integer newAmmo = getAmmo(e.getItem()) - 1;
-
-                            if (!shot.containsKey(e.getPlayer())) {
+                    if (e.getItem().getType() == Material.FLINT_AND_STEEL) {
+                        if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
+                            if (getAmmo(e.getItem()) != -1) {
+                                Integer newAmmo = getAmmo(e.getItem()) - 1;
                                 if (newAmmo < 0) {
-                                    reload(e.getPlayer(), "§5Enderstaff §l» 10 «", 10);
+                                    reload(e.getPlayer(), "§eFlamethrower §l» 200 «", 10);
                                 } else {
                                     if (newAmmo == 0) {
-                                        reload(e.getPlayer(), "§5Enderstaff §l» 10 «", 10);
+                                        reload(e.getPlayer(), "§eFlamethrower §l» 200 «", 10);
                                     }
-                                    cooldown(e.getPlayer(), e.getItem(), 18);
-                                    setName(e.getItem(), e.getPlayer(), "§5Enderstaff §l» " + newAmmo + " «");
-                                    e.getPlayer().setVelocity(e.getPlayer().getLocation().getDirection().multiply(3));
-                                    e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ENDERMAN_TELEPORT, 10, 2);
+                                    setName(e.getItem(), e.getPlayer(), "§eFlamethrower §l» " + newAmmo + " «");
+                                    for (int i = 0; i < 7; i++) {
+                                        Snowball s = e.getPlayer().launchProjectile(Snowball.class);
+                                        if (i == 0) {
+                                            s.setVelocity(s.getVelocity());
+                                        } else if (i == 1) {
+                                            s.setVelocity(s.getVelocity().add(new Vector(0, 0.3, 0)));
+                                        } else if (i == 2) {
+                                            s.setVelocity(s.getVelocity().add(new Vector(0.5, 0.3, 0)));
+                                        } else if (i == 3) {
+                                            s.setVelocity(s.getVelocity().add(new Vector(0, 0.3, 0.5)));
+                                        } else if (i == 4) {
+                                            s.setVelocity(s.getVelocity().add(new Vector(0, -0.1, 0)));
+                                        } else if (i == 5) {
+                                            s.setVelocity(s.getVelocity().add(new Vector(0.5, -0.1, 0)));
+                                        } else if (i == 6) {
+                                            s.setVelocity(s.getVelocity().add(new Vector(0, -0.1, 0.5)));
+                                        }
+                                        s.setCustomName("FLAME");
+                                        s.setCustomNameVisible(false);
+                                    }
                                 }
-                            } else {
-                                if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+                            } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
+                                setName(e.getItem(), e.getPlayer(), "§eFlamethrower §l» 200 «");
+                            }
+                        }
+                        e.setCancelled(true);
+                    }
+                    if (e.getItem().getType() == Material.CARROT_STICK) {
+                        if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
+                            if (getAmmo(e.getItem()) != -1) {
+                                Integer newAmmo = getAmmo(e.getItem()) - 1;
+
+                                if (!shot.containsKey(e.getPlayer())) {
                                     if (newAmmo < 0) {
                                         reload(e.getPlayer(), "§5Enderstaff §l» 10 «", 10);
                                     } else {
@@ -168,33 +160,38 @@ public class GunListener implements Listener {
                                         e.getPlayer().setVelocity(e.getPlayer().getLocation().getDirection().multiply(3));
                                         e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ENDERMAN_TELEPORT, 10, 2);
                                     }
-                                }
-                            }
-
-                        } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
-                            setName(e.getItem(), e.getPlayer(), "§5Enderstaff §l» 10 «");
-                        }
-                    }
-                    e.setCancelled(true);
-                }
-                if (e.getItem().getType() == Material.DOUBLE_PLANT) {
-                    if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
-                        if (getAmmo(e.getItem()) != -1) {
-                            Integer newAmmo = getAmmo(e.getItem()) - 1;
-
-                            if (!shot.containsKey(e.getPlayer())) {
-                                if (newAmmo < 0) {
-                                    reload(e.getPlayer(), "§eJetpack §l» 50 «", 15);
                                 } else {
-                                    if (newAmmo == 0) {
-                                        reload(e.getPlayer(), "§eJetpack §l» 50 «", 15);
+                                    if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+                                        if (newAmmo < 0) {
+                                            reload(e.getPlayer(), "§5Enderstaff §l» 10 «", 10);
+                                        } else {
+                                            if (newAmmo == 0) {
+                                                reload(e.getPlayer(), "§5Enderstaff §l» 10 «", 10);
+                                            }
+                                            cooldown(e.getPlayer(), e.getItem(), 18);
+                                            setName(e.getItem(), e.getPlayer(), "§5Enderstaff §l» " + newAmmo + " «");
+                                            e.getPlayer().setVelocity(e.getPlayer().getLocation().getDirection().multiply(3));
+                                            e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ENDERMAN_TELEPORT, 10, 2);
+                                        }
                                     }
-                                    setName(e.getItem(), e.getPlayer(), "§eJetpack §l» " + newAmmo + " «");
-                                    e.getPlayer().setVelocity(e.getPlayer().getLocation().getDirection().multiply(1));
-                                    e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.BAT_TAKEOFF, 10, 1);
                                 }
-                            } else {
-                                if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+
+                            } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
+                                setName(e.getItem(), e.getPlayer(), "§5Enderstaff §l» 10 «");
+                            }
+                        }
+                        e.setCancelled(true);
+                    }
+                    if (e.getItem().getType() == Material.DOUBLE_PLANT) {
+                        if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
+                            if (e.getItem().getAmount() > 1) {
+                                e.getPlayer().sendMessage(MessageUtils.PREFIX_BAD + "§cYou cannot use stacked weapons");
+                                return;
+                            }
+                            if (getAmmo(e.getItem()) != -1) {
+                                Integer newAmmo = getAmmo(e.getItem()) - 1;
+
+                                if (!shot.containsKey(e.getPlayer())) {
                                     if (newAmmo < 0) {
                                         reload(e.getPlayer(), "§eJetpack §l» 50 «", 15);
                                     } else {
@@ -205,141 +202,145 @@ public class GunListener implements Listener {
                                         e.getPlayer().setVelocity(e.getPlayer().getLocation().getDirection().multiply(1));
                                         e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.BAT_TAKEOFF, 10, 1);
                                     }
-                                }
-                            }
-
-                        } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
-                            setName(e.getItem(), e.getPlayer(), "§5Enderstaff §l» 10 «");
-                        }
-                    }
-                    e.setCancelled(true);
-                }
-                if (e.getItem().getType() == Material.LEASH) {
-                    if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
-                        if (getAmmo(e.getItem()) != -1) {
-                            Integer newAmmo = getAmmo(e.getItem()) - 1;
-                            if (newAmmo < 0) {
-                                reload(e.getPlayer(), "§eMinigun §l» 500 «", 30);
-                            } else {
-                                if (newAmmo == 0) {
-                                    reload(e.getPlayer(), "§eMinigun §l» 500 «", 30);
-                                }
-                                Egg s = e.getPlayer().launchProjectile(Egg.class);
-                                s.setVelocity(s.getVelocity().multiply(5));
-                                s.setCustomName("MINIGUN");
-                                s.setCustomNameVisible(false);
-                                setName(e.getItem(), e.getPlayer(), "§eMinigun §l» " + newAmmo + " «");
-                                newAmmo--;
-                                if (newAmmo == 0) {
-                                    reload(e.getPlayer(), "§eMinigun §l» 500 «", 30);
-                                    return;
-                                }
-                                Bukkit.getScheduler().scheduleSyncDelayedTask(Core.getInstance(), new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Egg s = e.getPlayer().launchProjectile(Egg.class);
-                                        s.setVelocity(s.getVelocity().multiply(5));
-                                        s.setCustomName("MINIGUN");
-                                        s.setCustomNameVisible(false);
-
-                                    }
-                                }, 1);
-                                setName(e.getItem(), e.getPlayer(), "§eMinigun §l» " + newAmmo + " «");
-                                newAmmo--;
-                                if (newAmmo == 0) {
-                                    reload(e.getPlayer(), "§eMinigun §l» 500 «", 30);
-                                    return;
-                                }
-                                Bukkit.getScheduler().scheduleSyncDelayedTask(Core.getInstance(), new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Egg s = e.getPlayer().launchProjectile(Egg.class);
-                                        s.setVelocity(s.getVelocity().multiply(5));
-                                        s.setCustomName("MINIGUN");
-                                        s.setCustomNameVisible(false);
-
-                                    }
-                                }, 2);
-                                setName(e.getItem(), e.getPlayer(), "§eMinigun §l» " + newAmmo + " «");
-                                newAmmo--;
-                                if (newAmmo == 0) {
-                                    reload(e.getPlayer(), "§eMinigun §l» 500 «", 30);
-                                    return;
-                                }
-                                Bukkit.getScheduler().scheduleSyncDelayedTask(Core.getInstance(), new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Egg s = e.getPlayer().launchProjectile(Egg.class);
-                                        s.setVelocity(s.getVelocity().multiply(5));
-                                        s.setCustomName("MINIGUN");
-                                        s.setCustomNameVisible(false);
-                                    }
-                                }, 3);
-                                setName(e.getItem(), e.getPlayer(), "§eMinigun §l» " + newAmmo + " «");
-                                newAmmo--;
-                                if (newAmmo == 0) {
-                                    reload(e.getPlayer(), "§eMinigun §l» 500 «", 30);
-                                    return;
-                                }
-                                Bukkit.getScheduler().scheduleSyncDelayedTask(Core.getInstance(), new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Egg s = e.getPlayer().launchProjectile(Egg.class);
-                                        s.setVelocity(s.getVelocity().multiply(5));
-                                        s.setCustomName("MINIGUN");
-                                        s.setCustomNameVisible(false);
-
-                                    }
-                                }, 4);
-                                setName(e.getItem(), e.getPlayer(), "§eMinigun §l» " + newAmmo + " «");
-                            }
-                        } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
-                            setName(e.getItem(), e.getPlayer(), "§eMinigun §l» 500 «");
-                        }
-                    }
-                    e.setCancelled(true);
-                }
-                if (e.getItem().getType() == Material.IRON_BARDING) {
-                    if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
-                        if (getAmmo(e.getItem()) != -1) {
-                            Integer newAmmo = getAmmo(e.getItem()) - 1;
-                            if (newAmmo < 0) {
-                                reload(e.getPlayer(), "§eBazooka §l» 1 «", 20);
-                            } else {
-                                if (newAmmo == 0) {
-                                    reload(e.getPlayer(), "§eBazooka §l» 1 «", 20);
-                                }
-                                Fireball f = e.getPlayer().launchProjectile(Fireball.class);
-                                f.setCustomName("BAZOOKA");
-                                f.setCustomNameVisible(false);
-                                setName(e.getItem(), e.getPlayer(), "§eBazooka §l» " + newAmmo + " «");
-                            }
-                        } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
-                            setName(e.getItem(), e.getPlayer(), "§eBazooka §l» 1 «");
-                        }
-                    }
-                    e.setCancelled(true);
-                }
-
-                //Begin Tier Weapons
-
-                if (e.getItem().getType() == Material.WOOD_SPADE) {
-                    if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
-                        if (getAmmo(e.getItem()) != -1) {
-                            Integer newAmmo = getAmmo(e.getItem()) - 1;
-                            if (!shot.containsKey(e.getPlayer())) {
-                                if (newAmmo < 0) {
-                                    reload(e.getPlayer(), e.getItem(), "§eTier1 Shotgun §l» 4 «", 10, Material.GOLD_INGOT, 4);
                                 } else {
-                                    cooldown(e.getPlayer(), e.getItem(), 20);
-                                    setName(e.getItem(), e.getPlayer(), "§eTier1 Shotgun §l» " + newAmmo + " «");
-                                    fireShotgunShots(e.getPlayer(), "TIER1SHOTTY");
-                                    if (newAmmo == 0) {
-                                        reload(e.getPlayer(), e.getItem(), "§eTier1 Shotgun §l» 4 «", 10, Material.GOLD_INGOT, 4);
+                                    if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+                                        if (newAmmo < 0) {
+                                            reload(e.getPlayer(), "§eJetpack §l» 50 «", 15);
+                                        } else {
+                                            if (newAmmo == 0) {
+                                                reload(e.getPlayer(), "§eJetpack §l» 50 «", 15);
+                                            }
+                                            setName(e.getItem(), e.getPlayer(), "§eJetpack §l» " + newAmmo + " «");
+                                            e.getPlayer().setVelocity(e.getPlayer().getLocation().getDirection().multiply(1));
+                                            e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.BAT_TAKEOFF, 10, 1);
+                                        }
                                     }
                                 }
-                            } else {
-                                if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+
+                            } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
+                                setName(e.getItem(), e.getPlayer(), "§5Enderstaff §l» 10 «");
+                            }
+                        }
+                        e.setCancelled(true);
+                    }
+                    if (e.getItem().getType() == Material.LEASH) {
+                        if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
+                            if (e.getItem().getAmount() > 1) {
+                                e.getPlayer().sendMessage(MessageUtils.PREFIX_BAD + "§cYou cannot use stacked weapons");
+                                return;
+                            }
+                            if (getAmmo(e.getItem()) != -1) {
+                                Integer newAmmo = getAmmo(e.getItem()) - 1;
+                                if (newAmmo < 0) {
+                                    reload(e.getPlayer(), "§eMinigun §l» 500 «", 30);
+                                } else {
+                                    if (newAmmo == 0) {
+                                        reload(e.getPlayer(), "§eMinigun §l» 500 «", 30);
+                                    }
+                                    Egg s = e.getPlayer().launchProjectile(Egg.class);
+                                    s.setVelocity(s.getVelocity().multiply(5));
+                                    s.setCustomName("MINIGUN");
+                                    s.setCustomNameVisible(false);
+                                    setName(e.getItem(), e.getPlayer(), "§eMinigun §l» " + newAmmo + " «");
+                                    newAmmo--;
+                                    if (newAmmo == 0) {
+                                        reload(e.getPlayer(), "§eMinigun §l» 500 «", 30);
+                                        return;
+                                    }
+                                    Bukkit.getScheduler().scheduleSyncDelayedTask(Core.getInstance(), new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Egg s = e.getPlayer().launchProjectile(Egg.class);
+                                            s.setVelocity(s.getVelocity().multiply(5));
+                                            s.setCustomName("MINIGUN");
+                                            s.setCustomNameVisible(false);
+
+                                        }
+                                    }, 1);
+                                    setName(e.getItem(), e.getPlayer(), "§eMinigun §l» " + newAmmo + " «");
+                                    newAmmo--;
+                                    if (newAmmo == 0) {
+                                        reload(e.getPlayer(), "§eMinigun §l» 500 «", 30);
+                                        return;
+                                    }
+                                    Bukkit.getScheduler().scheduleSyncDelayedTask(Core.getInstance(), new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Egg s = e.getPlayer().launchProjectile(Egg.class);
+                                            s.setVelocity(s.getVelocity().multiply(5));
+                                            s.setCustomName("MINIGUN");
+                                            s.setCustomNameVisible(false);
+
+                                        }
+                                    }, 2);
+                                    setName(e.getItem(), e.getPlayer(), "§eMinigun §l» " + newAmmo + " «");
+                                    newAmmo--;
+                                    if (newAmmo == 0) {
+                                        reload(e.getPlayer(), "§eMinigun §l» 500 «", 30);
+                                        return;
+                                    }
+                                    Bukkit.getScheduler().scheduleSyncDelayedTask(Core.getInstance(), new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Egg s = e.getPlayer().launchProjectile(Egg.class);
+                                            s.setVelocity(s.getVelocity().multiply(5));
+                                            s.setCustomName("MINIGUN");
+                                            s.setCustomNameVisible(false);
+                                        }
+                                    }, 3);
+                                    setName(e.getItem(), e.getPlayer(), "§eMinigun §l» " + newAmmo + " «");
+                                    newAmmo--;
+                                    if (newAmmo == 0) {
+                                        reload(e.getPlayer(), "§eMinigun §l» 500 «", 30);
+                                        return;
+                                    }
+                                    Bukkit.getScheduler().scheduleSyncDelayedTask(Core.getInstance(), new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Egg s = e.getPlayer().launchProjectile(Egg.class);
+                                            s.setVelocity(s.getVelocity().multiply(5));
+                                            s.setCustomName("MINIGUN");
+                                            s.setCustomNameVisible(false);
+
+                                        }
+                                    }, 4);
+                                    setName(e.getItem(), e.getPlayer(), "§eMinigun §l» " + newAmmo + " «");
+                                }
+                            } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
+                                setName(e.getItem(), e.getPlayer(), "§eMinigun §l» 500 «");
+                            }
+                        }
+                        e.setCancelled(true);
+                    }
+                    if (e.getItem().getType() == Material.IRON_BARDING) {
+                        if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
+                            if (getAmmo(e.getItem()) != -1) {
+                                Integer newAmmo = getAmmo(e.getItem()) - 1;
+                                if (newAmmo < 0) {
+                                    reload(e.getPlayer(), "§eBazooka §l» 1 «", 20);
+                                } else {
+                                    if (newAmmo == 0) {
+                                        reload(e.getPlayer(), "§eBazooka §l» 1 «", 20);
+                                    }
+                                    Fireball f = e.getPlayer().launchProjectile(Fireball.class);
+                                    f.setCustomName("BAZOOKA");
+                                    f.setCustomNameVisible(false);
+                                    setName(e.getItem(), e.getPlayer(), "§eBazooka §l» " + newAmmo + " «");
+                                }
+                            } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
+                                setName(e.getItem(), e.getPlayer(), "§eBazooka §l» 1 «");
+                            }
+                        }
+                        e.setCancelled(true);
+                    }
+
+                    //Begin Tier Weapons
+
+                    if (e.getItem().getType() == Material.WOOD_SPADE) {
+                        if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
+                            if (getAmmo(e.getItem()) != -1) {
+                                Integer newAmmo = getAmmo(e.getItem()) - 1;
+                                if (!shot.containsKey(e.getPlayer())) {
                                     if (newAmmo < 0) {
                                         reload(e.getPlayer(), e.getItem(), "§eTier1 Shotgun §l» 4 «", 10, Material.GOLD_INGOT, 4);
                                     } else {
@@ -350,184 +351,181 @@ public class GunListener implements Listener {
                                             reload(e.getPlayer(), e.getItem(), "§eTier1 Shotgun §l» 4 «", 10, Material.GOLD_INGOT, 4);
                                         }
                                     }
-                                }
-                            }
-
-                        } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
-                            setName(e.getItem(), e.getPlayer(), "§eTier1 Shotgun §l» 4 «");
-                        }
-                    }
-                    e.setCancelled(true);
-                }
-
-                if (e.getItem().getType() == Material.STONE_SPADE) {
-                    if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
-                        if (getAmmo(e.getItem()) != -1) {
-                            Integer newAmmo = getAmmo(e.getItem()) - 1;
-                            if (!shot.containsKey(e.getPlayer())) {
-                                if (newAmmo < 0) {
-                                    reload(e.getPlayer(), e.getItem(), "§6Tier2 Shotgun §l» 2 «", 8, Material.GOLD_INGOT, 2);
                                 } else {
-                                    cooldown(e.getPlayer(), e.getItem(), 20);
-                                    setName(e.getItem(), e.getPlayer(), "§6Tier2 Shotgun §l» " + newAmmo + " «");
-                                    fireShotgunShots(e.getPlayer(), "TIER2SHOTTY");
-                                    if (newAmmo == 0) {
-                                        reload(e.getPlayer(), e.getItem(), "§6Tier2 Shotgun §l» 2 «", 8, Material.GOLD_INGOT, 2);
+                                    if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+                                        if (newAmmo < 0) {
+                                            reload(e.getPlayer(), e.getItem(), "§eTier1 Shotgun §l» 4 «", 10, Material.GOLD_INGOT, 4);
+                                        } else {
+                                            cooldown(e.getPlayer(), e.getItem(), 20);
+                                            setName(e.getItem(), e.getPlayer(), "§eTier1 Shotgun §l» " + newAmmo + " «");
+                                            fireShotgunShots(e.getPlayer(), "TIER1SHOTTY");
+                                            if (newAmmo == 0) {
+                                                reload(e.getPlayer(), e.getItem(), "§eTier1 Shotgun §l» 4 «", 10, Material.GOLD_INGOT, 4);
+                                            }
+                                        }
                                     }
                                 }
-                            } else {
-                                if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+
+                            } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
+                                setName(e.getItem(), e.getPlayer(), "§eTier1 Shotgun §l» 4 «");
+                            }
+                        }
+                        e.setCancelled(true);
+                    }
+
+                    if (e.getItem().getType() == Material.STONE_SPADE) {
+                        if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
+                            if (getAmmo(e.getItem()) != -1) {
+                                Integer newAmmo = getAmmo(e.getItem()) - 1;
+                                if (!shot.containsKey(e.getPlayer())) {
                                     if (newAmmo < 0) {
-                                        reload(e.getPlayer(), e.getItem(), "§eTier1 Shotgun §l» 4 «", 8, Material.GOLD_INGOT, 2);
+                                        reload(e.getPlayer(), e.getItem(), "§6Tier2 Shotgun §l» 2 «", 8, Material.GOLD_INGOT, 2);
                                     } else {
-                                        cooldown(e.getPlayer(), e.getItem(), 25);
+                                        cooldown(e.getPlayer(), e.getItem(), 20);
                                         setName(e.getItem(), e.getPlayer(), "§6Tier2 Shotgun §l» " + newAmmo + " «");
                                         fireShotgunShots(e.getPlayer(), "TIER2SHOTTY");
                                         if (newAmmo == 0) {
                                             reload(e.getPlayer(), e.getItem(), "§6Tier2 Shotgun §l» 2 «", 8, Material.GOLD_INGOT, 2);
                                         }
                                     }
-                                }
-                            }
-
-                        } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
-                            setName(e.getItem(), e.getPlayer(), "§6Tier2 Shotgun §l» 2 «");
-                        }
-                    }
-                    e.setCancelled(true);
-                }
-                if (e.getItem().getType() == Material.GOLD_SPADE) {
-                    if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
-                        if (getAmmo(e.getItem()) != -1) {
-                            Integer newAmmo = getAmmo(e.getItem()) - 1;
-                            if (!shot.containsKey(e.getPlayer())) {
-                                if (newAmmo < 0) {
-                                    reload(e.getPlayer(), e.getItem(), "§aTier3 Shotgun §l» 5 «", 12, Material.GOLD_INGOT, 5);
                                 } else {
-                                    cooldown(e.getPlayer(), e.getItem(), 20);
-                                    setName(e.getItem(), e.getPlayer(), "§aTier3 Shotgun §l» " + newAmmo + " «");
-                                    fireShotgunShots(e.getPlayer(), "TIER3SHOTTY");
-                                    if (newAmmo == 0) {
-                                        reload(e.getPlayer(), e.getItem(), "§aTier3 Shotgun §l» 5 «", 12, Material.GOLD_INGOT, 5);
+                                    if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+                                        if (newAmmo < 0) {
+                                            reload(e.getPlayer(), e.getItem(), "§eTier1 Shotgun §l» 4 «", 8, Material.GOLD_INGOT, 2);
+                                        } else {
+                                            cooldown(e.getPlayer(), e.getItem(), 25);
+                                            setName(e.getItem(), e.getPlayer(), "§6Tier2 Shotgun §l» " + newAmmo + " «");
+                                            fireShotgunShots(e.getPlayer(), "TIER2SHOTTY");
+                                            if (newAmmo == 0) {
+                                                reload(e.getPlayer(), e.getItem(), "§6Tier2 Shotgun §l» 2 «", 8, Material.GOLD_INGOT, 2);
+                                            }
+                                        }
                                     }
                                 }
-                            } else {
-                                if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+
+                            } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
+                                setName(e.getItem(), e.getPlayer(), "§6Tier2 Shotgun §l» 2 «");
+                            }
+                        }
+                        e.setCancelled(true);
+                    }
+                    if (e.getItem().getType() == Material.GOLD_SPADE) {
+                        if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
+                            if (getAmmo(e.getItem()) != -1) {
+                                Integer newAmmo = getAmmo(e.getItem()) - 1;
+                                if (!shot.containsKey(e.getPlayer())) {
                                     if (newAmmo < 0) {
                                         reload(e.getPlayer(), e.getItem(), "§aTier3 Shotgun §l» 5 «", 12, Material.GOLD_INGOT, 5);
                                     } else {
-                                        cooldown(e.getPlayer(), e.getItem(), 25);
+                                        cooldown(e.getPlayer(), e.getItem(), 20);
                                         setName(e.getItem(), e.getPlayer(), "§aTier3 Shotgun §l» " + newAmmo + " «");
                                         fireShotgunShots(e.getPlayer(), "TIER3SHOTTY");
                                         if (newAmmo == 0) {
                                             reload(e.getPlayer(), e.getItem(), "§aTier3 Shotgun §l» 5 «", 12, Material.GOLD_INGOT, 5);
                                         }
                                     }
-                                }
-                            }
-
-                        } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
-                            setName(e.getItem(), e.getPlayer(), "§aTier3 Shotgun §l» 5 «");
-                        }
-                    }
-                    e.setCancelled(true);
-                }
-                if (e.getItem().getType() == Material.IRON_SPADE) {
-                    if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
-                        if (getAmmo(e.getItem()) != -1) {
-                            Integer newAmmo = getAmmo(e.getItem()) - 1;
-                            if (!shot.containsKey(e.getPlayer())) {
-                                if (newAmmo < 0) {
-                                    reload(e.getPlayer(), e.getItem(), "§dTier4 Shotgun §l» 5 «", 12, Material.GOLD_INGOT, 5);
                                 } else {
-                                    cooldown(e.getPlayer(), e.getItem(), 20);
-                                    setName(e.getItem(), e.getPlayer(), "§dTier4 Shotgun §l» " + newAmmo + " «");
-                                    fireShotgunShots(e.getPlayer(), "TIER4SHOTTY");
-                                    if (newAmmo == 0) {
-                                        reload(e.getPlayer(), e.getItem(), "§dTier4 Shotgun §l» 5 «", 12, Material.GOLD_INGOT, 5);
+                                    if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+                                        if (newAmmo < 0) {
+                                            reload(e.getPlayer(), e.getItem(), "§aTier3 Shotgun §l» 5 «", 12, Material.GOLD_INGOT, 5);
+                                        } else {
+                                            cooldown(e.getPlayer(), e.getItem(), 25);
+                                            setName(e.getItem(), e.getPlayer(), "§aTier3 Shotgun §l» " + newAmmo + " «");
+                                            fireShotgunShots(e.getPlayer(), "TIER3SHOTTY");
+                                            if (newAmmo == 0) {
+                                                reload(e.getPlayer(), e.getItem(), "§aTier3 Shotgun §l» 5 «", 12, Material.GOLD_INGOT, 5);
+                                            }
+                                        }
                                     }
                                 }
-                            } else {
-                                if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+
+                            } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
+                                setName(e.getItem(), e.getPlayer(), "§aTier3 Shotgun §l» 5 «");
+                            }
+                        }
+                        e.setCancelled(true);
+                    }
+                    if (e.getItem().getType() == Material.IRON_SPADE) {
+                        if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
+                            if (getAmmo(e.getItem()) != -1) {
+                                Integer newAmmo = getAmmo(e.getItem()) - 1;
+                                if (!shot.containsKey(e.getPlayer())) {
                                     if (newAmmo < 0) {
                                         reload(e.getPlayer(), e.getItem(), "§dTier4 Shotgun §l» 5 «", 12, Material.GOLD_INGOT, 5);
                                     } else {
-                                        cooldown(e.getPlayer(), e.getItem(), 25);
+                                        cooldown(e.getPlayer(), e.getItem(), 20);
                                         setName(e.getItem(), e.getPlayer(), "§dTier4 Shotgun §l» " + newAmmo + " «");
                                         fireShotgunShots(e.getPlayer(), "TIER4SHOTTY");
                                         if (newAmmo == 0) {
                                             reload(e.getPlayer(), e.getItem(), "§dTier4 Shotgun §l» 5 «", 12, Material.GOLD_INGOT, 5);
                                         }
                                     }
-                                }
-                            }
-
-                        } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
-                            setName(e.getItem(), e.getPlayer(), "§dTier4 Shotgun §l» 5 «");
-                        }
-                    }
-                    e.setCancelled(true);
-                }
-                if (e.getItem().getType() == Material.DIAMOND_SPADE) {
-                    if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
-                        if (getAmmo(e.getItem()) != -1) {
-                            Integer newAmmo = getAmmo(e.getItem()) - 1;
-                            if (!shot.containsKey(e.getPlayer())) {
-                                if (newAmmo < 0) {
-                                    reload(e.getPlayer(), e.getItem(), "§bTier5 Shotgun §l» 6 «", 10, Material.GOLD_INGOT, 6);
                                 } else {
-                                    cooldown(e.getPlayer(), e.getItem(), 20);
-                                    setName(e.getItem(), e.getPlayer(), "§bTier5 Shotgun §l» " + newAmmo + " «");
-                                    fireShotgunShots(e.getPlayer(), "TIER5SHOTTY");
-                                    if (newAmmo == 0) {
-                                        reload(e.getPlayer(), e.getItem(), "§bTier5 Shotgun §l» 6 «", 10, Material.GOLD_INGOT, 6);
+                                    if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+                                        if (newAmmo < 0) {
+                                            reload(e.getPlayer(), e.getItem(), "§dTier4 Shotgun §l» 5 «", 12, Material.GOLD_INGOT, 5);
+                                        } else {
+                                            cooldown(e.getPlayer(), e.getItem(), 25);
+                                            setName(e.getItem(), e.getPlayer(), "§dTier4 Shotgun §l» " + newAmmo + " «");
+                                            fireShotgunShots(e.getPlayer(), "TIER4SHOTTY");
+                                            if (newAmmo == 0) {
+                                                reload(e.getPlayer(), e.getItem(), "§dTier4 Shotgun §l» 5 «", 12, Material.GOLD_INGOT, 5);
+                                            }
+                                        }
                                     }
                                 }
-                            } else {
-                                if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+
+                            } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
+                                setName(e.getItem(), e.getPlayer(), "§dTier4 Shotgun §l» 5 «");
+                            }
+                        }
+                        e.setCancelled(true);
+                    }
+                    if (e.getItem().getType() == Material.DIAMOND_SPADE) {
+                        if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
+                            if (getAmmo(e.getItem()) != -1) {
+                                Integer newAmmo = getAmmo(e.getItem()) - 1;
+                                if (!shot.containsKey(e.getPlayer())) {
                                     if (newAmmo < 0) {
                                         reload(e.getPlayer(), e.getItem(), "§bTier5 Shotgun §l» 6 «", 10, Material.GOLD_INGOT, 6);
                                     } else {
-                                        cooldown(e.getPlayer(), e.getItem(), 25);
+                                        cooldown(e.getPlayer(), e.getItem(), 20);
                                         setName(e.getItem(), e.getPlayer(), "§bTier5 Shotgun §l» " + newAmmo + " «");
                                         fireShotgunShots(e.getPlayer(), "TIER5SHOTTY");
                                         if (newAmmo == 0) {
                                             reload(e.getPlayer(), e.getItem(), "§bTier5 Shotgun §l» 6 «", 10, Material.GOLD_INGOT, 6);
                                         }
                                     }
-                                }
-                            }
-
-                        } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
-                            setName(e.getItem(), e.getPlayer(), "§bTier5 Shotgun §l» 6 «");
-                        }
-                    }
-                    e.setCancelled(true);
-                }
-
-
-                //Assault rifles by tier
-
-                if (e.getItem().getType() == Material.WOOD_PICKAXE) {
-                    if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
-                        if (getAmmo(e.getItem()) != -1) {
-                            Integer newAmmo = getAmmo(e.getItem()) - 1;
-                            if (!shot.containsKey(e.getPlayer())) {
-                                if (newAmmo < 0) {
-                                    reload(e.getPlayer(), e.getItem(), "§eTier1 Assault Rifle §l» 20 «", 10, Material.IRON_INGOT, 20);
                                 } else {
-                                    cooldown(e.getPlayer(), e.getItem(), 2);
-                                    setName(e.getItem(), e.getPlayer(), "§eTier1 Assault Rifle §l» " + newAmmo + " «");
-                                    Snowball s = e.getPlayer().launchProjectile(Snowball.class);
-                                    s.setVelocity(s.getVelocity().multiply(2));
-                                    s.setCustomName("TIER1AR");
-                                    s.setCustomNameVisible(false);
-                                    if (newAmmo == 0) {
-                                        reload(e.getPlayer(), e.getItem(), "§eTier1 Assault Rifle §l» 20 «", 10, Material.IRON_INGOT, 20);
+                                    if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+                                        if (newAmmo < 0) {
+                                            reload(e.getPlayer(), e.getItem(), "§bTier5 Shotgun §l» 6 «", 10, Material.GOLD_INGOT, 6);
+                                        } else {
+                                            cooldown(e.getPlayer(), e.getItem(), 25);
+                                            setName(e.getItem(), e.getPlayer(), "§bTier5 Shotgun §l» " + newAmmo + " «");
+                                            fireShotgunShots(e.getPlayer(), "TIER5SHOTTY");
+                                            if (newAmmo == 0) {
+                                                reload(e.getPlayer(), e.getItem(), "§bTier5 Shotgun §l» 6 «", 10, Material.GOLD_INGOT, 6);
+                                            }
+                                        }
                                     }
                                 }
-                            } else {
-                                if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+
+                            } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
+                                setName(e.getItem(), e.getPlayer(), "§bTier5 Shotgun §l» 6 «");
+                            }
+                        }
+                        e.setCancelled(true);
+                    }
+
+
+                    //Assault rifles by tier
+
+                    if (e.getItem().getType() == Material.WOOD_PICKAXE) {
+                        if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
+                            if (getAmmo(e.getItem()) != -1) {
+                                Integer newAmmo = getAmmo(e.getItem()) - 1;
+                                if (!shot.containsKey(e.getPlayer())) {
                                     if (newAmmo < 0) {
                                         reload(e.getPlayer(), e.getItem(), "§eTier1 Assault Rifle §l» 20 «", 10, Material.IRON_INGOT, 20);
                                     } else {
@@ -541,36 +539,36 @@ public class GunListener implements Listener {
                                             reload(e.getPlayer(), e.getItem(), "§eTier1 Assault Rifle §l» 20 «", 10, Material.IRON_INGOT, 20);
                                         }
                                     }
-                                }
-                            }
-
-                        } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
-                            setName(e.getItem(), e.getPlayer(), "§eTier1 Assault Rifle §l» 20 «");
-                        }
-                    }
-                    e.setCancelled(true);
-                }
-
-                if (e.getItem().getType() == Material.STONE_PICKAXE) {
-                    if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
-                        if (getAmmo(e.getItem()) != -1) {
-                            Integer newAmmo = getAmmo(e.getItem()) - 1;
-                            if (!shot.containsKey(e.getPlayer())) {
-                                if (newAmmo < 0) {
-                                    reload(e.getPlayer(), e.getItem(), "§6Tier2 Assault Rifle §l» 25 «", 11, Material.IRON_INGOT, 25);
                                 } else {
-                                    cooldown(e.getPlayer(), e.getItem(), 2);
-                                    setName(e.getItem(), e.getPlayer(), "§6Tier2 Assault Rifle §l» " + newAmmo + " «");
-                                    Snowball s = e.getPlayer().launchProjectile(Snowball.class);
-                                    s.setVelocity(s.getVelocity().multiply(2));
-                                    s.setCustomName("TIER2AR");
-                                    s.setCustomNameVisible(false);
-                                    if (newAmmo == 0) {
-                                        reload(e.getPlayer(), e.getItem(), "§6Tier2 Assault Rifle §l» 25 «", 11, Material.IRON_INGOT, 25);
+                                    if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+                                        if (newAmmo < 0) {
+                                            reload(e.getPlayer(), e.getItem(), "§eTier1 Assault Rifle §l» 20 «", 10, Material.IRON_INGOT, 20);
+                                        } else {
+                                            cooldown(e.getPlayer(), e.getItem(), 2);
+                                            setName(e.getItem(), e.getPlayer(), "§eTier1 Assault Rifle §l» " + newAmmo + " «");
+                                            Snowball s = e.getPlayer().launchProjectile(Snowball.class);
+                                            s.setVelocity(s.getVelocity().multiply(2));
+                                            s.setCustomName("TIER1AR");
+                                            s.setCustomNameVisible(false);
+                                            if (newAmmo == 0) {
+                                                reload(e.getPlayer(), e.getItem(), "§eTier1 Assault Rifle §l» 20 «", 10, Material.IRON_INGOT, 20);
+                                            }
+                                        }
                                     }
                                 }
-                            } else {
-                                if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+
+                            } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
+                                setName(e.getItem(), e.getPlayer(), "§eTier1 Assault Rifle §l» 20 «");
+                            }
+                        }
+                        e.setCancelled(true);
+                    }
+
+                    if (e.getItem().getType() == Material.STONE_PICKAXE) {
+                        if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
+                            if (getAmmo(e.getItem()) != -1) {
+                                Integer newAmmo = getAmmo(e.getItem()) - 1;
+                                if (!shot.containsKey(e.getPlayer())) {
                                     if (newAmmo < 0) {
                                         reload(e.getPlayer(), e.getItem(), "§6Tier2 Assault Rifle §l» 25 «", 11, Material.IRON_INGOT, 25);
                                     } else {
@@ -584,36 +582,36 @@ public class GunListener implements Listener {
                                             reload(e.getPlayer(), e.getItem(), "§6Tier2 Assault Rifle §l» 25 «", 11, Material.IRON_INGOT, 25);
                                         }
                                     }
-                                }
-                            }
-
-                        } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
-                            setName(e.getItem(), e.getPlayer(), "§6Tier2 Assault Rifle §l» 25 «");
-                        }
-                    }
-                    e.setCancelled(true);
-                }
-
-                if (e.getItem().getType() == Material.GOLD_PICKAXE) {
-                    if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
-                        if (getAmmo(e.getItem()) != -1) {
-                            Integer newAmmo = getAmmo(e.getItem()) - 1;
-                            if (!shot.containsKey(e.getPlayer())) {
-                                if (newAmmo < 0) {
-                                    reload(e.getPlayer(), e.getItem(), "§aTier3 Assault Rifle §l» 25 «", 11, Material.IRON_INGOT, 25);
                                 } else {
-                                    cooldown(e.getPlayer(), e.getItem(), 2);
-                                    setName(e.getItem(), e.getPlayer(), "§aTier3 Assault Rifle §l» " + newAmmo + " «");
-                                    Snowball s = e.getPlayer().launchProjectile(Snowball.class);
-                                    s.setVelocity(s.getVelocity().multiply(2));
-                                    s.setCustomName("TIER3AR");
-                                    s.setCustomNameVisible(false);
-                                    if (newAmmo == 0) {
-                                        reload(e.getPlayer(), e.getItem(), "§aTier3 Assault Rifle §l» 25 «", 11, Material.IRON_INGOT, 25);
+                                    if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+                                        if (newAmmo < 0) {
+                                            reload(e.getPlayer(), e.getItem(), "§6Tier2 Assault Rifle §l» 25 «", 11, Material.IRON_INGOT, 25);
+                                        } else {
+                                            cooldown(e.getPlayer(), e.getItem(), 2);
+                                            setName(e.getItem(), e.getPlayer(), "§6Tier2 Assault Rifle §l» " + newAmmo + " «");
+                                            Snowball s = e.getPlayer().launchProjectile(Snowball.class);
+                                            s.setVelocity(s.getVelocity().multiply(2));
+                                            s.setCustomName("TIER2AR");
+                                            s.setCustomNameVisible(false);
+                                            if (newAmmo == 0) {
+                                                reload(e.getPlayer(), e.getItem(), "§6Tier2 Assault Rifle §l» 25 «", 11, Material.IRON_INGOT, 25);
+                                            }
+                                        }
                                     }
                                 }
-                            } else {
-                                if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+
+                            } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
+                                setName(e.getItem(), e.getPlayer(), "§6Tier2 Assault Rifle §l» 25 «");
+                            }
+                        }
+                        e.setCancelled(true);
+                    }
+
+                    if (e.getItem().getType() == Material.GOLD_PICKAXE) {
+                        if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
+                            if (getAmmo(e.getItem()) != -1) {
+                                Integer newAmmo = getAmmo(e.getItem()) - 1;
+                                if (!shot.containsKey(e.getPlayer())) {
                                     if (newAmmo < 0) {
                                         reload(e.getPlayer(), e.getItem(), "§aTier3 Assault Rifle §l» 25 «", 11, Material.IRON_INGOT, 25);
                                     } else {
@@ -627,36 +625,36 @@ public class GunListener implements Listener {
                                             reload(e.getPlayer(), e.getItem(), "§aTier3 Assault Rifle §l» 25 «", 11, Material.IRON_INGOT, 25);
                                         }
                                     }
-                                }
-                            }
-
-                        } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
-                            setName(e.getItem(), e.getPlayer(), "§aTier3 Assault Rifle §l» 25 «");
-                        }
-                    }
-                    e.setCancelled(true);
-                }
-
-                if (e.getItem().getType() == Material.IRON_PICKAXE) {
-                    if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
-                        if (getAmmo(e.getItem()) != -1) {
-                            Integer newAmmo = getAmmo(e.getItem()) - 1;
-                            if (!shot.containsKey(e.getPlayer())) {
-                                if (newAmmo < 0) {
-                                    reload(e.getPlayer(), e.getItem(), "§dTier4 Assault Rifle §l» 30 «", 13, Material.IRON_INGOT, 30);
                                 } else {
-                                    cooldown(e.getPlayer(), e.getItem(), 2);
-                                    setName(e.getItem(), e.getPlayer(), "§dTier4 Assault Rifle §l» " + newAmmo + " «");
-                                    Snowball s = e.getPlayer().launchProjectile(Snowball.class);
-                                    s.setVelocity(s.getVelocity().multiply(2));
-                                    s.setCustomName("TIER4AR");
-                                    s.setCustomNameVisible(false);
-                                    if (newAmmo == 0) {
-                                        reload(e.getPlayer(), e.getItem(), "§dTier4 Assault Rifle §l» 30 «", 13, Material.IRON_INGOT, 30);
+                                    if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+                                        if (newAmmo < 0) {
+                                            reload(e.getPlayer(), e.getItem(), "§aTier3 Assault Rifle §l» 25 «", 11, Material.IRON_INGOT, 25);
+                                        } else {
+                                            cooldown(e.getPlayer(), e.getItem(), 2);
+                                            setName(e.getItem(), e.getPlayer(), "§aTier3 Assault Rifle §l» " + newAmmo + " «");
+                                            Snowball s = e.getPlayer().launchProjectile(Snowball.class);
+                                            s.setVelocity(s.getVelocity().multiply(2));
+                                            s.setCustomName("TIER3AR");
+                                            s.setCustomNameVisible(false);
+                                            if (newAmmo == 0) {
+                                                reload(e.getPlayer(), e.getItem(), "§aTier3 Assault Rifle §l» 25 «", 11, Material.IRON_INGOT, 25);
+                                            }
+                                        }
                                     }
                                 }
-                            } else {
-                                if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+
+                            } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
+                                setName(e.getItem(), e.getPlayer(), "§aTier3 Assault Rifle §l» 25 «");
+                            }
+                        }
+                        e.setCancelled(true);
+                    }
+
+                    if (e.getItem().getType() == Material.IRON_PICKAXE) {
+                        if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
+                            if (getAmmo(e.getItem()) != -1) {
+                                Integer newAmmo = getAmmo(e.getItem()) - 1;
+                                if (!shot.containsKey(e.getPlayer())) {
                                     if (newAmmo < 0) {
                                         reload(e.getPlayer(), e.getItem(), "§dTier4 Assault Rifle §l» 30 «", 13, Material.IRON_INGOT, 30);
                                     } else {
@@ -670,36 +668,36 @@ public class GunListener implements Listener {
                                             reload(e.getPlayer(), e.getItem(), "§dTier4 Assault Rifle §l» 30 «", 13, Material.IRON_INGOT, 30);
                                         }
                                     }
-                                }
-                            }
-
-                        } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
-                            setName(e.getItem(), e.getPlayer(), "§dTier4 Assault Rifle §l» 30 «");
-                        }
-                    }
-                    e.setCancelled(true);
-                }
-
-                if (e.getItem().getType() == Material.DIAMOND_PICKAXE) {
-                    if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
-                        if (getAmmo(e.getItem()) != -1) {
-                            Integer newAmmo = getAmmo(e.getItem()) - 1;
-                            if (!shot.containsKey(e.getPlayer())) {
-                                if (newAmmo < 0) {
-                                    reload(e.getPlayer(), e.getItem(), "§bTier5 Assault Rifle §l» 35 «", 15, Material.IRON_INGOT, 35);
                                 } else {
-                                    cooldown(e.getPlayer(), e.getItem(), 1);
-                                    setName(e.getItem(), e.getPlayer(), "§bTier5 Assault Rifle §l» " + newAmmo + " «");
-                                    Snowball s = e.getPlayer().launchProjectile(Snowball.class);
-                                    s.setVelocity(s.getVelocity().multiply(2));
-                                    s.setCustomName("TIER5AR");
-                                    s.setCustomNameVisible(false);
-                                    if (newAmmo == 0) {
-                                        reload(e.getPlayer(), e.getItem(), "§bTier5 Assault Rifle §l» 35 «", 15, Material.IRON_INGOT, 35);
+                                    if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+                                        if (newAmmo < 0) {
+                                            reload(e.getPlayer(), e.getItem(), "§dTier4 Assault Rifle §l» 30 «", 13, Material.IRON_INGOT, 30);
+                                        } else {
+                                            cooldown(e.getPlayer(), e.getItem(), 2);
+                                            setName(e.getItem(), e.getPlayer(), "§dTier4 Assault Rifle §l» " + newAmmo + " «");
+                                            Snowball s = e.getPlayer().launchProjectile(Snowball.class);
+                                            s.setVelocity(s.getVelocity().multiply(2));
+                                            s.setCustomName("TIER4AR");
+                                            s.setCustomNameVisible(false);
+                                            if (newAmmo == 0) {
+                                                reload(e.getPlayer(), e.getItem(), "§dTier4 Assault Rifle §l» 30 «", 13, Material.IRON_INGOT, 30);
+                                            }
+                                        }
                                     }
                                 }
-                            } else {
-                                if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+
+                            } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
+                                setName(e.getItem(), e.getPlayer(), "§dTier4 Assault Rifle §l» 30 «");
+                            }
+                        }
+                        e.setCancelled(true);
+                    }
+
+                    if (e.getItem().getType() == Material.DIAMOND_PICKAXE) {
+                        if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
+                            if (getAmmo(e.getItem()) != -1) {
+                                Integer newAmmo = getAmmo(e.getItem()) - 1;
+                                if (!shot.containsKey(e.getPlayer())) {
                                     if (newAmmo < 0) {
                                         reload(e.getPlayer(), e.getItem(), "§bTier5 Assault Rifle §l» 35 «", 15, Material.IRON_INGOT, 35);
                                     } else {
@@ -713,38 +711,38 @@ public class GunListener implements Listener {
                                             reload(e.getPlayer(), e.getItem(), "§bTier5 Assault Rifle §l» 35 «", 15, Material.IRON_INGOT, 35);
                                         }
                                     }
-                                }
-                            }
-
-                        } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
-                            setName(e.getItem(), e.getPlayer(), "§bTier5 Assault Rifle §l» 35 «");
-                        }
-                    }
-                    e.setCancelled(true);
-                }
-
-                //Begin snipers
-
-                if (e.getItem().getType() == Material.WOOD_HOE) {
-                    if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
-                        if (getAmmo(e.getItem()) != -1) {
-                            Integer newAmmo = getAmmo(e.getItem()) - 1;
-                            if (!shot.containsKey(e.getPlayer())) {
-                                if (newAmmo < 0) {
-                                    reload(e.getPlayer(), e.getItem(), "§eTier1 Sniper Rifle §l» 4 «", 10, Material.NETHER_BRICK_ITEM, 4);
                                 } else {
-                                    cooldown(e.getPlayer(), e.getItem(), 80);
-                                    setName(e.getItem(), e.getPlayer(), "§eTier1 Sniper Rifle §l» " + newAmmo + " «");
-                                    Snowball s = e.getPlayer().launchProjectile(Snowball.class);
-                                    s.setVelocity(s.getVelocity().multiply(5));
-                                    s.setCustomName("TIER1SNIPE");
-                                    s.setCustomNameVisible(false);
-                                    if (newAmmo == 0) {
-                                        reload(e.getPlayer(), e.getItem(), "§eTier1 Sniper Rifle §l» 4 «", 10, Material.NETHER_BRICK_ITEM, 4);
+                                    if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+                                        if (newAmmo < 0) {
+                                            reload(e.getPlayer(), e.getItem(), "§bTier5 Assault Rifle §l» 35 «", 15, Material.IRON_INGOT, 35);
+                                        } else {
+                                            cooldown(e.getPlayer(), e.getItem(), 1);
+                                            setName(e.getItem(), e.getPlayer(), "§bTier5 Assault Rifle §l» " + newAmmo + " «");
+                                            Snowball s = e.getPlayer().launchProjectile(Snowball.class);
+                                            s.setVelocity(s.getVelocity().multiply(2));
+                                            s.setCustomName("TIER5AR");
+                                            s.setCustomNameVisible(false);
+                                            if (newAmmo == 0) {
+                                                reload(e.getPlayer(), e.getItem(), "§bTier5 Assault Rifle §l» 35 «", 15, Material.IRON_INGOT, 35);
+                                            }
+                                        }
                                     }
                                 }
-                            } else {
-                                if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+
+                            } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
+                                setName(e.getItem(), e.getPlayer(), "§bTier5 Assault Rifle §l» 35 «");
+                            }
+                        }
+                        e.setCancelled(true);
+                    }
+
+                    //Begin snipers
+
+                    if (e.getItem().getType() == Material.WOOD_HOE) {
+                        if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
+                            if (getAmmo(e.getItem()) != -1) {
+                                Integer newAmmo = getAmmo(e.getItem()) - 1;
+                                if (!shot.containsKey(e.getPlayer())) {
                                     if (newAmmo < 0) {
                                         reload(e.getPlayer(), e.getItem(), "§eTier1 Sniper Rifle §l» 4 «", 10, Material.NETHER_BRICK_ITEM, 4);
                                     } else {
@@ -758,36 +756,36 @@ public class GunListener implements Listener {
                                             reload(e.getPlayer(), e.getItem(), "§eTier1 Sniper Rifle §l» 4 «", 10, Material.NETHER_BRICK_ITEM, 4);
                                         }
                                     }
-                                }
-                            }
-
-                        } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
-                            setName(e.getItem(), e.getPlayer(), "§eTier1 Sniper Rifle §l» 4 «");
-                        }
-                    }
-                    e.setCancelled(true);
-                }
-
-                if (e.getItem().getType() == Material.STONE_HOE) {
-                    if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
-                        if (getAmmo(e.getItem()) != -1) {
-                            Integer newAmmo = getAmmo(e.getItem()) - 1;
-                            if (!shot.containsKey(e.getPlayer())) {
-                                if (newAmmo < 0) {
-                                    reload(e.getPlayer(), e.getItem(), "§6Tier2 Sniper Rifle §l» 4 «", 10, Material.NETHER_BRICK_ITEM, 4);
                                 } else {
-                                    cooldown(e.getPlayer(), e.getItem(), 80);
-                                    setName(e.getItem(), e.getPlayer(), "§6Tier2 Sniper Rifle §l» " + newAmmo + " «");
-                                    Snowball s = e.getPlayer().launchProjectile(Snowball.class);
-                                    s.setVelocity(s.getVelocity().multiply(5));
-                                    s.setCustomName("TIER2SNIPE");
-                                    s.setCustomNameVisible(false);
-                                    if (newAmmo == 0) {
-                                        reload(e.getPlayer(), e.getItem(), "§6Tier2 Sniper Rifle §l» 4 «", 10, Material.NETHER_BRICK_ITEM, 4);
+                                    if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+                                        if (newAmmo < 0) {
+                                            reload(e.getPlayer(), e.getItem(), "§eTier1 Sniper Rifle §l» 4 «", 10, Material.NETHER_BRICK_ITEM, 4);
+                                        } else {
+                                            cooldown(e.getPlayer(), e.getItem(), 80);
+                                            setName(e.getItem(), e.getPlayer(), "§eTier1 Sniper Rifle §l» " + newAmmo + " «");
+                                            Snowball s = e.getPlayer().launchProjectile(Snowball.class);
+                                            s.setVelocity(s.getVelocity().multiply(5));
+                                            s.setCustomName("TIER1SNIPE");
+                                            s.setCustomNameVisible(false);
+                                            if (newAmmo == 0) {
+                                                reload(e.getPlayer(), e.getItem(), "§eTier1 Sniper Rifle §l» 4 «", 10, Material.NETHER_BRICK_ITEM, 4);
+                                            }
+                                        }
                                     }
                                 }
-                            } else {
-                                if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+
+                            } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
+                                setName(e.getItem(), e.getPlayer(), "§eTier1 Sniper Rifle §l» 4 «");
+                            }
+                        }
+                        e.setCancelled(true);
+                    }
+
+                    if (e.getItem().getType() == Material.STONE_HOE) {
+                        if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
+                            if (getAmmo(e.getItem()) != -1) {
+                                Integer newAmmo = getAmmo(e.getItem()) - 1;
+                                if (!shot.containsKey(e.getPlayer())) {
                                     if (newAmmo < 0) {
                                         reload(e.getPlayer(), e.getItem(), "§6Tier2 Sniper Rifle §l» 4 «", 10, Material.NETHER_BRICK_ITEM, 4);
                                     } else {
@@ -801,36 +799,36 @@ public class GunListener implements Listener {
                                             reload(e.getPlayer(), e.getItem(), "§6Tier2 Sniper Rifle §l» 4 «", 10, Material.NETHER_BRICK_ITEM, 4);
                                         }
                                     }
-                                }
-                            }
-
-                        } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
-                            setName(e.getItem(), e.getPlayer(), "§6Tier2 Sniper Rifle §l» 4 «");
-                        }
-                    }
-                    e.setCancelled(true);
-                }
-
-                if (e.getItem().getType() == Material.GOLD_HOE) {
-                    if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
-                        if (getAmmo(e.getItem()) != -1) {
-                            Integer newAmmo = getAmmo(e.getItem()) - 1;
-                            if (!shot.containsKey(e.getPlayer())) {
-                                if (newAmmo < 0) {
-                                    reload(e.getPlayer(), e.getItem(), "§aTier3 Sniper Rifle §l» 6 «", 10, Material.NETHER_BRICK_ITEM, 6);
                                 } else {
-                                    cooldown(e.getPlayer(), e.getItem(), 80);
-                                    setName(e.getItem(), e.getPlayer(), "§aTier3 Sniper Rifle §l» " + newAmmo + " «");
-                                    Snowball s = e.getPlayer().launchProjectile(Snowball.class);
-                                    s.setVelocity(s.getVelocity().multiply(5));
-                                    s.setCustomName("TIER3SNIPE");
-                                    s.setCustomNameVisible(false);
-                                    if (newAmmo == 0) {
-                                        reload(e.getPlayer(), e.getItem(), "§aTier3 Sniper Rifle §l» 6 «", 10, Material.NETHER_BRICK_ITEM, 6);
+                                    if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+                                        if (newAmmo < 0) {
+                                            reload(e.getPlayer(), e.getItem(), "§6Tier2 Sniper Rifle §l» 4 «", 10, Material.NETHER_BRICK_ITEM, 4);
+                                        } else {
+                                            cooldown(e.getPlayer(), e.getItem(), 80);
+                                            setName(e.getItem(), e.getPlayer(), "§6Tier2 Sniper Rifle §l» " + newAmmo + " «");
+                                            Snowball s = e.getPlayer().launchProjectile(Snowball.class);
+                                            s.setVelocity(s.getVelocity().multiply(5));
+                                            s.setCustomName("TIER2SNIPE");
+                                            s.setCustomNameVisible(false);
+                                            if (newAmmo == 0) {
+                                                reload(e.getPlayer(), e.getItem(), "§6Tier2 Sniper Rifle §l» 4 «", 10, Material.NETHER_BRICK_ITEM, 4);
+                                            }
+                                        }
                                     }
                                 }
-                            } else {
-                                if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+
+                            } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
+                                setName(e.getItem(), e.getPlayer(), "§6Tier2 Sniper Rifle §l» 4 «");
+                            }
+                        }
+                        e.setCancelled(true);
+                    }
+
+                    if (e.getItem().getType() == Material.GOLD_HOE) {
+                        if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
+                            if (getAmmo(e.getItem()) != -1) {
+                                Integer newAmmo = getAmmo(e.getItem()) - 1;
+                                if (!shot.containsKey(e.getPlayer())) {
                                     if (newAmmo < 0) {
                                         reload(e.getPlayer(), e.getItem(), "§aTier3 Sniper Rifle §l» 6 «", 10, Material.NETHER_BRICK_ITEM, 6);
                                     } else {
@@ -844,36 +842,36 @@ public class GunListener implements Listener {
                                             reload(e.getPlayer(), e.getItem(), "§aTier3 Sniper Rifle §l» 6 «", 10, Material.NETHER_BRICK_ITEM, 6);
                                         }
                                     }
-                                }
-                            }
-
-                        } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
-                            setName(e.getItem(), e.getPlayer(), "§aTier3 Sniper Rifle §l» 6 «");
-                        }
-                    }
-                    e.setCancelled(true);
-                }
-
-                if (e.getItem().getType() == Material.IRON_HOE) {
-                    if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
-                        if (getAmmo(e.getItem()) != -1) {
-                            Integer newAmmo = getAmmo(e.getItem()) - 1;
-                            if (!shot.containsKey(e.getPlayer())) {
-                                if (newAmmo < 0) {
-                                    reload(e.getPlayer(), e.getItem(), "§dTier4 Sniper Rifle §l» 5 «", 10, Material.NETHER_BRICK_ITEM, 5);
                                 } else {
-                                    cooldown(e.getPlayer(), e.getItem(), 80);
-                                    setName(e.getItem(), e.getPlayer(), "§dTier4 Sniper Rifle §l» " + newAmmo + " «");
-                                    Snowball s = e.getPlayer().launchProjectile(Snowball.class);
-                                    s.setVelocity(s.getVelocity().multiply(5));
-                                    s.setCustomName("TIER4SNIPE");
-                                    s.setCustomNameVisible(false);
-                                    if (newAmmo == 0) {
-                                        reload(e.getPlayer(), e.getItem(), "§dTier4 Sniper Rifle §l» 5 «", 10, Material.NETHER_BRICK_ITEM, 5);
+                                    if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+                                        if (newAmmo < 0) {
+                                            reload(e.getPlayer(), e.getItem(), "§aTier3 Sniper Rifle §l» 6 «", 10, Material.NETHER_BRICK_ITEM, 6);
+                                        } else {
+                                            cooldown(e.getPlayer(), e.getItem(), 80);
+                                            setName(e.getItem(), e.getPlayer(), "§aTier3 Sniper Rifle §l» " + newAmmo + " «");
+                                            Snowball s = e.getPlayer().launchProjectile(Snowball.class);
+                                            s.setVelocity(s.getVelocity().multiply(5));
+                                            s.setCustomName("TIER3SNIPE");
+                                            s.setCustomNameVisible(false);
+                                            if (newAmmo == 0) {
+                                                reload(e.getPlayer(), e.getItem(), "§aTier3 Sniper Rifle §l» 6 «", 10, Material.NETHER_BRICK_ITEM, 6);
+                                            }
+                                        }
                                     }
                                 }
-                            } else {
-                                if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+
+                            } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
+                                setName(e.getItem(), e.getPlayer(), "§aTier3 Sniper Rifle §l» 6 «");
+                            }
+                        }
+                        e.setCancelled(true);
+                    }
+
+                    if (e.getItem().getType() == Material.IRON_HOE) {
+                        if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
+                            if (getAmmo(e.getItem()) != -1) {
+                                Integer newAmmo = getAmmo(e.getItem()) - 1;
+                                if (!shot.containsKey(e.getPlayer())) {
                                     if (newAmmo < 0) {
                                         reload(e.getPlayer(), e.getItem(), "§dTier4 Sniper Rifle §l» 5 «", 10, Material.NETHER_BRICK_ITEM, 5);
                                     } else {
@@ -887,36 +885,36 @@ public class GunListener implements Listener {
                                             reload(e.getPlayer(), e.getItem(), "§dTier4 Sniper Rifle §l» 5 «", 10, Material.NETHER_BRICK_ITEM, 5);
                                         }
                                     }
-                                }
-                            }
-
-                        } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
-                            setName(e.getItem(), e.getPlayer(), "§dTier4 Sniper Rifle §l» 5 «");
-                        }
-                    }
-                    e.setCancelled(true);
-                }
-
-                if (e.getItem().getType() == Material.DIAMOND_HOE) {
-                    if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
-                        if (getAmmo(e.getItem()) != -1) {
-                            Integer newAmmo = getAmmo(e.getItem()) - 1;
-                            if (!shot.containsKey(e.getPlayer())) {
-                                if (newAmmo < 0) {
-                                    reload(e.getPlayer(), e.getItem(), "§bTier5 Sniper Rifle §l» 2 «", 10, Material.NETHER_BRICK_ITEM, 2);
                                 } else {
-                                    cooldown(e.getPlayer(), e.getItem(), 40);
-                                    setName(e.getItem(), e.getPlayer(), "§bTier5 Sniper Rifle §l» " + newAmmo + " «");
-                                    Snowball s = e.getPlayer().launchProjectile(Snowball.class);
-                                    s.setVelocity(s.getVelocity().multiply(8));
-                                    s.setCustomName("TIER5SNIPE");
-                                    s.setCustomNameVisible(false);
-                                    if (newAmmo == 0) {
-                                        reload(e.getPlayer(), e.getItem(), "§bTier5 Sniper Rifle §l» 2 «", 10, Material.NETHER_BRICK_ITEM, 2);
+                                    if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+                                        if (newAmmo < 0) {
+                                            reload(e.getPlayer(), e.getItem(), "§dTier4 Sniper Rifle §l» 5 «", 10, Material.NETHER_BRICK_ITEM, 5);
+                                        } else {
+                                            cooldown(e.getPlayer(), e.getItem(), 80);
+                                            setName(e.getItem(), e.getPlayer(), "§dTier4 Sniper Rifle §l» " + newAmmo + " «");
+                                            Snowball s = e.getPlayer().launchProjectile(Snowball.class);
+                                            s.setVelocity(s.getVelocity().multiply(5));
+                                            s.setCustomName("TIER4SNIPE");
+                                            s.setCustomNameVisible(false);
+                                            if (newAmmo == 0) {
+                                                reload(e.getPlayer(), e.getItem(), "§dTier4 Sniper Rifle §l» 5 «", 10, Material.NETHER_BRICK_ITEM, 5);
+                                            }
+                                        }
                                     }
                                 }
-                            } else {
-                                if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+
+                            } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
+                                setName(e.getItem(), e.getPlayer(), "§dTier4 Sniper Rifle §l» 5 «");
+                            }
+                        }
+                        e.setCancelled(true);
+                    }
+
+                    if (e.getItem().getType() == Material.DIAMOND_HOE) {
+                        if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName()) {
+                            if (getAmmo(e.getItem()) != -1) {
+                                Integer newAmmo = getAmmo(e.getItem()) - 1;
+                                if (!shot.containsKey(e.getPlayer())) {
                                     if (newAmmo < 0) {
                                         reload(e.getPlayer(), e.getItem(), "§bTier5 Sniper Rifle §l» 2 «", 10, Material.NETHER_BRICK_ITEM, 2);
                                     } else {
@@ -930,20 +928,36 @@ public class GunListener implements Listener {
                                             reload(e.getPlayer(), e.getItem(), "§bTier5 Sniper Rifle §l» 2 «", 10, Material.NETHER_BRICK_ITEM, 2);
                                         }
                                     }
+                                } else {
+                                    if (!shot.get(e.getPlayer()).isSimilar(e.getItem())) {
+                                        if (newAmmo < 0) {
+                                            reload(e.getPlayer(), e.getItem(), "§bTier5 Sniper Rifle §l» 2 «", 10, Material.NETHER_BRICK_ITEM, 2);
+                                        } else {
+                                            cooldown(e.getPlayer(), e.getItem(), 40);
+                                            setName(e.getItem(), e.getPlayer(), "§bTier5 Sniper Rifle §l» " + newAmmo + " «");
+                                            Snowball s = e.getPlayer().launchProjectile(Snowball.class);
+                                            s.setVelocity(s.getVelocity().multiply(8));
+                                            s.setCustomName("TIER5SNIPE");
+                                            s.setCustomNameVisible(false);
+                                            if (newAmmo == 0) {
+                                                reload(e.getPlayer(), e.getItem(), "§bTier5 Sniper Rifle §l» 2 «", 10, Material.NETHER_BRICK_ITEM, 2);
+                                            }
+                                        }
+                                    }
                                 }
+
+                            } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
+                                setName(e.getItem(), e.getPlayer(), "§bTier5 Sniper Rifle §l» 2 «");
                             }
-
-                        } else if (e.getItem().hasItemMeta() && !e.getItem().getItemMeta().hasDisplayName()) {
-                            setName(e.getItem(), e.getPlayer(), "§bTier5 Sniper Rifle §l» 2 «");
                         }
+                        e.setCancelled(true);
                     }
-                    e.setCancelled(true);
-                }
 
+                }
+            } else {
+                reloading.remove(e.getPlayer());
+                e.getPlayer().sendMessage("§c§lReload cancelled (§7Item used§c§l)");
             }
-        } else {
-            reloading.remove(e.getPlayer());
-            e.getPlayer().sendMessage("§c§lReload cancelled (§7Item used§c§l)");
         }
 
     }
