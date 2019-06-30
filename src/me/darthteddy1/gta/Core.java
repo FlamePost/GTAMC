@@ -3,6 +3,8 @@ package me.darthteddy1.gta;
 import me.darthteddy1.gta.cars.NMSUtils;
 import me.darthteddy1.gta.cars.RidablePig;
 import me.darthteddy1.gta.commands.*;
+import me.darthteddy1.gta.crates.CrateHelper;
+import me.darthteddy1.gta.crates.CrateListener;
 import me.darthteddy1.gta.economy.EconomyHandler;
 import me.darthteddy1.gta.economy.EconomyListener;
 import me.darthteddy1.gta.guns.GunListener;
@@ -66,6 +68,7 @@ public class Core extends JavaPlugin {
         getCommand("setrank").setExecutor(new SetRankCommand());
         getCommand("bal").setExecutor(new BalanceCommand());
         getCommand("pay").setExecutor(new PayCommand());
+        getCommand("getammokey").setExecutor(new AmmoKeyCommand());
         getServer().getPluginManager().registerEvents(new GunListener(), this);
         getServer().getPluginManager().registerEvents(new RankManager(), this);
         getServer().getPluginManager().registerEvents(new ChatListener(), this);
@@ -73,6 +76,9 @@ public class Core extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new WantedLevelManager(), this);
         getServer().getPluginManager().registerEvents(new SpawnCommandListener(), this);
         getServer().getPluginManager().registerEvents(new EconomyListener(), this);
+        getServer().getPluginManager().registerEvents(new CrateListener(), this);
+
+        CrateHelper.prepCrates();
 
         NMSUtils.registerEntity("Pig", 90, EntityPig.class, RidablePig.class);
 
@@ -89,7 +95,7 @@ public class Core extends JavaPlugin {
     }
 
 
-     @Override
+    @Override
     public void onDisable() {
         for(Player p : Bukkit.getOnlinePlayers()) {
             p.kickPlayer("§c§lReloading Server");
@@ -98,7 +104,6 @@ public class Core extends JavaPlugin {
             EconomyHandler.setBalanceMYSQL(p, EconomyHandler.getBalance(p));
         }
     }
-
 
     public static Connection getSQLConnection() {
         return c;
