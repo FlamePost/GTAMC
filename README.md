@@ -29,7 +29,7 @@ Ranks:
 
 Commands:
 
-/setrank <Player> <rank>: Sets the <Player>'s rank to <rank> (Requires: OWNER or ADMIN rank, or can be run from console)
+/setrank ||Player|| ||rank||: Sets the Player's rank to <rank> (Requires: OWNER or ADMIN rank, or can be run from console)
   
 /guns: Opens the gun GUI to get guns (Requires: OWNER or ADMIN rank)
 
@@ -39,9 +39,9 @@ Commands:
 
 /fly: Toggles your flight (Requires: OWNER or ADMIN rank)
 
-/mute <player>: Mutes <Player> (Requires: OWNER, ADMIN, MOD, or HELPER rank)
+/mute ||player||: Mutes ||Player|| (Requires: OWNER, ADMIN, MOD, or HELPER rank)
   
-/pay <Player> <amount>: Attempts to pay <Player> $<amount> from your balance (No rank required)
+/pay ||Player|| ||amount||: Attempts to pay ||Player|| $||amount|| from your balance (No rank required)
   
 /summoncar: Sets you riding a car (WIP) (Requires: OWNER or ADMIN rank)
 
